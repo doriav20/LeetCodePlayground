@@ -32,6 +32,18 @@ public:
         test_cases.push_back(test_case);
     }
 
+    void add_test_case(Arg1Type arg1, Arg2Type arg2, Arg3Type arg3, ResultType resultType) {
+        test_cases.push_back(TestCase<ResultType, Arg1Type, Arg2Type, Arg3Type>(arg1, arg2, arg3, resultType));
+    }
+
+    void add_test_case(Arg1Type arg1, Arg2Type arg2, ResultType resultType) {
+        test_cases.push_back(TestCase<ResultType, Arg1Type, Arg2Type, Arg3Type>(arg1, arg2, resultType));
+    }
+
+    void add_test_case(Arg1Type arg1, ResultType resultType) {
+        test_cases.push_back(TestCase<ResultType, Arg1Type, Arg2Type, Arg3Type>(arg1, resultType));
+    }
+
     void run_tests(bool verbose = true) {
         std::vector<bool> results(test_cases.size());
         int i = 0;
