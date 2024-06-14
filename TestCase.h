@@ -21,14 +21,16 @@ private:
                       std::is_same<T, std::vector<std::string>>::value ||
                       std::is_same<T, std::vector<std::string>&>::value ||
                       std::is_same<T, std::vector<char>>::value ||
-                      std::is_same<T, std::vector<char>&>::value ||
-                      std::is_same<T, std::vector<std::vector<int>>>::value ||
-                      std::is_same<T, std::vector<std::vector<int>>&>::value ||
-                      std::is_same<T, std::vector<std::vector<std::string>>>::value ||
-                      std::is_same<T, std::vector<std::vector<std::string>>&>::value ||
-                      std::is_same<T, std::vector<std::vector<char>>>::value ||
-                      std::is_same<T, std::vector<std::vector<char>>&>::value) {
+                      std::is_same<T, std::vector<char>&>::value) {
             std::cout << vector_to_string(static_cast<const T&>(arg));
+        }
+        else if constexpr (std::is_same<T, std::vector<std::vector<int>>>::value ||
+                           std::is_same<T, std::vector<std::vector<int>>&>::value ||
+                           std::is_same<T, std::vector<std::vector<std::string>>>::value ||
+                           std::is_same<T, std::vector<std::vector<std::string>>&>::value ||
+                           std::is_same<T, std::vector<std::vector<char>>>::value ||
+                           std::is_same<T, std::vector<std::vector<char>>&>::value) {
+            std::cout << matrix_to_string(static_cast<const T&>(arg));
         }
         else if constexpr (std::is_same<T, ListNode*>::value) {
             std::cout << list_node_to_string(static_cast<ListNode*>(arg));
