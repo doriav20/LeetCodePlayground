@@ -6,63 +6,32 @@
 #include <windows.h>
 #include "TestCase.h"
 
-template<typename ResultType, typename Arg1Type, typename Arg2Type=bool, typename Arg3Type=bool>
+template<typename ResultType, typename... Args>
 class TestsTool {
 private:
-    std::vector<TestCase<ResultType, Arg1Type, Arg2Type, Arg3Type>> test_cases;
+    std::vector<TestCase<ResultType, Args...>> test_cases;
 
-    using FunctionType1 = ResultType (*)(Arg1Type);
-    using FunctionType2 = ResultType (*)(Arg1Type, Arg2Type);
-    using FunctionType3 = ResultType (*)(Arg1Type, Arg2Type, Arg3Type);
-
-    FunctionType1 func1;
-    FunctionType2 func2;
-    FunctionType3 func3;
-
+    using FunctionType = ResultType (*)(Args...);
+    FunctionType func;
 
 public:
-    TestsTool(FunctionType1 func) : func1(func), func2(nullptr), func3(nullptr) {}
+    explicit TestsTool(FunctionType func) : func(func) {}
 
-    TestsTool(FunctionType2 func) : func1(nullptr), func2(func), func3(nullptr) {}
-
-    TestsTool(FunctionType3 func) : func1(nullptr), func2(nullptr), func3(func) {}
-
-
-    void add_test_case(const TestCase<ResultType, Arg1Type, Arg2Type, Arg3Type>& test_case) {
+    void add_test_case(const TestCase<ResultType, Args...>& test_case) {
         test_cases.push_back(test_case);
     }
 
-    void add_test_case(Arg1Type arg1, Arg2Type arg2, Arg3Type arg3, ResultType resultType) {
-        test_cases.push_back(TestCase<ResultType, Arg1Type, Arg2Type, Arg3Type>(arg1, arg2, arg3, resultType));
-    }
-
-    void add_test_case(Arg1Type arg1, Arg2Type arg2, ResultType resultType) {
-        test_cases.push_back(TestCase<ResultType, Arg1Type, Arg2Type, Arg3Type>(arg1, arg2, resultType));
-    }
-
-    void add_test_case(Arg1Type arg1, ResultType resultType) {
-        test_cases.push_back(TestCase<ResultType, Arg1Type, Arg2Type, Arg3Type>(arg1, resultType));
+    void add_test_case(Args... args, ResultType expected) {
+        test_cases.emplace_back(args..., expected);
     }
 
     void run_tests(bool verbose = true) {
         std::vector<bool> results(test_cases.size());
         int i = 0;
 
-        if (func1 != nullptr) {
+        if (func != nullptr) {
             for (auto& test_case: test_cases) {
-                auto passed = test_case.run(func1, verbose);
-                results[i++] = passed;
-            }
-        }
-        else if (func2 != nullptr) {
-            for (auto& test_case: test_cases) {
-                auto passed = test_case.run(func2, verbose);
-                results[i++] = passed;
-            }
-        }
-        else if (func3 != nullptr) {
-            for (auto& test_case: test_cases) {
-                auto passed = test_case.run(func3, verbose);
+                auto passed = test_case.run(func, verbose);
                 results[i++] = passed;
             }
         }

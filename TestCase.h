@@ -3,15 +3,13 @@
 
 
 #include <ostream>
+#include <tuple>
 #include "utils.h"
 
-template<typename ResultType, typename Arg1Type, typename Arg2Type=bool, typename Arg3Type=bool>
+template<typename ResultType, typename... Args>
 class TestCase {
 private:
-    Arg1Type arg1;
-    Arg2Type arg2;
-    Arg3Type arg3;
-
+    std::tuple<Args...> args;
     ResultType expected;
 
     template<typename T>
@@ -43,16 +41,15 @@ private:
         }
     }
 
-    void print_arg1() {
-        print_argument(arg1);
-    }
-
-    void print_arg2() {
-        print_argument(arg2);
-    }
-
-    void print_arg3() {
-        print_argument(arg3);
+    template<size_t Index = 0>
+    void print_arguments() {
+        if constexpr (Index < sizeof...(Args)) {
+            print_argument(std::get<Index>(args));
+            if constexpr (Index + 1 < sizeof...(Args)) {
+                std::cout << ", ";
+            }
+            print_arguments<Index + 1>();
+        }
     }
 
     void print_expected() {
@@ -64,74 +61,23 @@ private:
     }
 
 public:
-    TestCase(Arg1Type arg1, ResultType expected) : arg1(arg1), expected(expected), arg2(), arg3() {
+    TestCase(Args... args, ResultType expected) : args(std::make_tuple(args...)), expected(expected) {}
+
+    template<size_t... IdxSeq>
+    auto call_function(std::index_sequence<IdxSeq...>, ResultType (* func)(Args...)) {
+        return func(std::get<IdxSeq>(args)...);
     }
 
-    TestCase(Arg1Type arg1, Arg2Type arg2, ResultType expected) : arg1(arg1), arg2(arg2), expected(expected),
-                                                                  arg3() {
-    }
-
-    TestCase(Arg1Type arg1, Arg2Type arg2, Arg3Type arg3, ResultType expected) : arg1(arg1), arg2(arg2),
-                                                                                 arg3(arg3),
-                                                                                 expected(expected) {
-    }
-
-    bool run(ResultType (* func)(Arg1Type), bool verbose = true) {
-        auto actual = func(arg1);
+    bool run(ResultType (* func)(Args...), bool verbose = true) {
+        auto actual = call_function(std::index_sequence_for<Args...>{}, func);
         if (!verbose) {
             return actual == expected;
         }
-        std::cout << "Arguments: ";
-        print_arg1();
-        std::cout << std::endl;
-
-        std::cout << "Expected: ";
-        print_expected();
-        std::cout << std::endl;
-
-        std::cout << "Actual: ";
-        print_result(actual);
-        std::cout << std::endl;
-
-        std::cout << std::endl;
-        return actual == expected;
-    }
-
-    bool run(ResultType (* func)(Arg1Type, Arg2Type), bool verbose = true) {
-        auto actual = func(arg1, arg2);
-        if (!verbose) {
-            return actual == expected;
+        if constexpr (sizeof...(Args) > 0) {
+            std::cout << "Arguments: ";
+            print_arguments();
+            std::cout << std::endl;
         }
-        std::cout << "Arguments: ";
-        print_arg1();
-        std::cout << ", ";
-        print_arg2();
-        std::cout << std::endl;
-
-        std::cout << "Expected: ";
-        print_expected();
-        std::cout << std::endl;
-
-        std::cout << "Actual: ";
-        print_result(actual);
-        std::cout << std::endl;
-
-        std::cout << std::endl;
-        return actual == expected;
-    }
-
-    bool run(ResultType (* func)(Arg1Type, Arg2Type, Arg3Type), bool verbose = true) {
-        auto actual = func(arg1, arg2, arg3);
-        if (!verbose) {
-            return actual == expected;
-        }
-        std::cout << "Arguments: ";
-        print_arg1();
-        std::cout << ", ";
-        print_arg2();
-        std::cout << ", ";
-        print_arg3();
-        std::cout << std::endl;
 
         std::cout << "Expected: ";
         print_expected();
