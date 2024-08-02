@@ -1,9 +1,10 @@
 #ifndef LEETCODEPLAYGROUND_TESTSTOOL_H
 #define LEETCODEPLAYGROUND_TESTSTOOL_H
 
-#include <vector>
 #include <iostream>
+#include <vector>
 #include <windows.h>
+
 #include "TestCase.h"
 
 template<typename ResultType, typename... Args>
@@ -47,7 +48,6 @@ public:
                 SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
                 std::cout << "Test " << i + 1 << " passed" << std::endl;
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-
             }
             else {
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED);

@@ -1,15 +1,16 @@
-#include <iostream>
-#include <vector>
 #include <algorithm>
-#include <numeric>
-#include <cmath>
 #include <cassert>
-#include <stack>
+#include <cmath>
 #include <cstdint>
+#include <iostream>
+#include <numeric>
+#include <stack>
 #include <unordered_map>
 #include <unordered_set>
-#include "utils.h"
+#include <vector>
+
 #include "TestsTool.h"
+#include "utils.h"
 
 using namespace std;
 
