@@ -3,157 +3,100 @@
 #include <stack>
 #include <cmath>
 #include <string>
+#include <sstream>
+#include <queue>
 #include "utils.h"
 
 
-std::string vector_to_string(const std::vector<int>& vec) {
+template<typename T>
+std::string vector_to_string(const std::vector<T>& vec) {
     if (vec.empty()) {
         return "[]";
     }
-    std::string s;
-    s += "[";
-    s += std::to_string(vec[0]);
+
+    std::ostringstream oss;
+
+    oss << '[';
+
+    oss << vec[0];
     for (int i = 1; i < vec.size(); i++) {
-        s += ",";
-        s += std::to_string(vec[i]);
+        oss << ',' << vec[i];
     }
-    s += "]";
-    return s;
+
+    oss << ']';
+
+    return oss.str();
 }
 
-std::string vector_to_string(const std::vector<std::string>& vec) {
-    if (vec.empty()) {
-        return "[]";
-    }
-    std::string s;
-    s += "[";
-    s += vec[0];
-    for (int i = 1; i < vec.size(); i++) {
-        s += ",";
-        s += vec[i];
-    }
-    s += "]";
-    return s;
-}
+template std::string vector_to_string<int>(const std::vector<int>& vec);
 
-std::string vector_to_string(const std::vector<char>& vec) {
-    if (vec.empty()) {
-        return "[]";
-    }
-    std::string s;
-    s += "[";
-    s += vec[0];
-    for (int i = 1; i < vec.size(); i++) {
-        s += ",";
-        s += vec[i];
-    }
-    s += "]";
-    return s;
-}
+template std::string vector_to_string<std::string>(const std::vector<std::string>& vec);
 
-std::string matrix_to_string(const std::vector<std::vector<int>>& mat) {
+template std::string vector_to_string<char>(const std::vector<char>& vec);
+
+template<typename T>
+std::string matrix_to_string(const std::vector<std::vector<T>>& mat) {
     if (mat.empty()) {
         return "[]";
     }
-    std::string s;
-    s += "[";
-    s += vector_to_string(mat[0]);
+
+    std::ostringstream oss;
+
+    oss << '[';
+
+    oss << vector_to_string(mat[0]);
     for (int i = 1; i < mat.size(); i++) {
-        s += ",";
-        s += vector_to_string(mat[i]);
+        oss << ',' << vector_to_string(mat[i]);
     }
-    s += "]";
-    return s;
+
+    oss << ']';
+
+    return oss.str();
 }
 
-std::string matrix_to_string(const std::vector<std::vector<std::string>>& mat) {
-    if (mat.empty()) {
-        return "[]";
-    }
-    std::string s;
-    s += "[";
-    s += vector_to_string(mat[0]);
-    for (int i = 1; i < mat.size(); i++) {
-        s += ",";
-        s += vector_to_string(mat[i]);
-    }
-    s += "]";
-    return s;
-}
+template std::string matrix_to_string<int>(const std::vector<std::vector<int>>& vec);
 
-std::string matrix_to_string(const std::vector<std::vector<char>>& mat) {
-    if (mat.empty()) {
-        return "[]";
-    }
-    std::string s;
-    s += "[";
-    s += vector_to_string(mat[0]);
-    for (int i = 1; i < mat.size(); i++) {
-        s += ",";
-        s += vector_to_string(mat[i]);
-    }
-    s += "]";
-    return s;
-}
+template std::string matrix_to_string<std::string>(const std::vector<std::vector<std::string>>& vec);
 
-std::string stack_to_string(const std::stack<int>& stk) {
+template std::string matrix_to_string<char>(const std::vector<std::vector<char>>& vec);
+
+template<typename T>
+std::string stack_to_string(const std::stack<T>& stk) {
     if (stk.empty()) {
         return "[]";
     }
 
-    std::stack<int> stk_copy = stk;
-
-    std::string s;
-    s += std::to_string(stk_copy.top());
-    stk_copy.pop();
+    std::stack<T> stk_copy = stk;
+    std::queue<T> q;
     while (!stk_copy.empty()) {
-        s = "," + s;
-        s = std::to_string(stk_copy.top()) + s;
+        q.push(stk_copy.top());
         stk_copy.pop();
     }
-    s = "[" + s + "]";
-    return s;
-}
 
-std::string stack_to_string(const std::stack<std::string>& stk) {
-    if (stk.empty()) {
-        return "[]";
+    std::ostringstream oss;
+
+    oss << '[';
+
+    oss << q.front();
+    q.pop();
+
+    while (!q.empty()) {
+        oss << ", " << q.front();
+        q.pop();
     }
 
-    std::stack<std::string> stk_copy = stk;
+    oss << ']';
 
-    std::string s;
-    s += stk_copy.top();
-    stk_copy.pop();
-    while (!stk_copy.empty()) {
-        s = "," + s;
-        s = stk_copy.top() + s;
-        stk_copy.pop();
-    }
-    s = "[" + s + "]";
-    return s;
-}
-
-std::string stack_to_string(const std::stack<char>& stk) {
-    if (stk.empty()) {
-        return "[]";
-    }
-
-    std::stack<char> stk_copy = stk;
-
-    std::string s;
-    s += stk_copy.top();
-    stk_copy.pop();
-    while (!stk_copy.empty()) {
-        s = "," + s;
-        s = stk_copy.top() + s;
-        stk_copy.pop();
-    }
-    s = "[" + s + "]";
-    return s;
+    return oss.str();
 }
 
 std::string list_node_to_string(ListNode* head) {
+template std::string stack_to_string<int>(const std::stack<int>& stk);
+
+template std::string stack_to_string<std::string>(const std::stack<std::string>& stk);
+
+template std::string stack_to_string<char>(const std::stack<char>& stk);
+
     if (head == nullptr) {
         return "List is empty";
     }

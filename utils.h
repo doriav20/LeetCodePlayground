@@ -7,23 +7,14 @@
 
 #define NULL_NODE INT_MIN
 
-std::string vector_to_string(const std::vector<int>& vec);
+template<typename T>
+std::string vector_to_string(const std::vector<T>& vec);
 
-std::string vector_to_string(const std::vector<std::string>& vec);
+template<typename T>
+std::string matrix_to_string(const std::vector<std::vector<T>>& mat);
 
-std::string vector_to_string(const std::vector<char>& vec);
-
-std::string matrix_to_string(const std::vector<std::vector<int>>& mat);
-
-std::string matrix_to_string(const std::vector<std::vector<std::string>>& mat);
-
-std::string matrix_to_string(const std::vector<std::vector<char>>& mat);
-
-std::string stack_to_string(const std::stack<int>& stk);
-
-std::string stack_to_string(const std::stack<std::string>& stk);
-
-std::string stack_to_string(const std::stack<char>& stk);
+template<typename T>
+std::string stack_to_string(const std::stack<T>& stk);
 
 struct ListNode {
     int val;
