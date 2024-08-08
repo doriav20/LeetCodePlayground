@@ -2,8 +2,9 @@
 
 
 #include <iostream>
-#include <vector>
 #include <limits>
+#include <stack>
+#include <vector>
 
 constexpr int NULL_NODE = std::numeric_limits<int>::min();
 

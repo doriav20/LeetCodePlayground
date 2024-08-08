@@ -1,12 +1,12 @@
-#include <iostream>
-#include <vector>
-#include <stack>
 #include <cmath>
-#include <string>
-#include <sstream>
+#include <iostream>
 #include <queue>
-#include "utils.h"
+#include <sstream>
+#include <stack>
+#include <string>
+#include <vector>
 
+#include "utils.h"
 
 template<typename T>
 std::string vector_to_string(const std::vector<T>& vec) {
