@@ -14,20 +14,20 @@
 
 using namespace std;
 
-vector<int> twoSum(vector<int> nums, int target) {
-    return {};
+int sum(int a, int b) {
+    return a + b;
 }
 
 int main() {
     cout << boolalpha;
 
-    auto func = twoSum;
+    auto func = sum;
 
     TestsTool tests_tool(func);
 
-    tests_tool.add_test_case({vector<int>{2, 7, 11, 15}, 9, vector<int>{0, 1}});
-    tests_tool.add_test_case({vector<int>{3, 2, 4}, 6, vector<int>{1, 2}});
-    tests_tool.add_test_case({vector<int>{3, 3}, 6, vector<int>{0, 1}});
+    tests_tool.add_test_case(2, 3, 5);
+    tests_tool.add_test_case(-1, 1, 0);
+    tests_tool.add_test_case(4, 6, 10);
 
     tests_tool.run_tests();
 
