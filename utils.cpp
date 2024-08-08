@@ -90,13 +90,13 @@ std::string stack_to_string(const std::stack<T>& stk) {
     return oss.str();
 }
 
-std::string list_node_to_string(ListNode* head) {
 template std::string stack_to_string<int>(const std::stack<int>& stk);
 
 template std::string stack_to_string<std::string>(const std::stack<std::string>& stk);
 
 template std::string stack_to_string<char>(const std::stack<char>& stk);
 
+std::string list_node_to_string(const ListNode* head) {
     if (head == nullptr) {
         return "List is empty";
     }
@@ -110,7 +110,7 @@ template std::string stack_to_string<char>(const std::stack<char>& stk);
     return s;
 }
 
-std::string _tree_node_to_string(TreeNode* root) {
+std::string _tree_node_to_string(const TreeNode* root) {
     if (root == nullptr) return "";
     std::string s;
     s += _tree_node_to_string(root->left);
@@ -119,7 +119,7 @@ std::string _tree_node_to_string(TreeNode* root) {
     return s;
 }
 
-std::string tree_node_to_string(TreeNode* root) {
+std::string tree_node_to_string(const TreeNode* root) {
     if (root == nullptr) {
         return "Tree is empty";
     }

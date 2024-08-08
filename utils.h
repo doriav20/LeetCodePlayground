@@ -39,9 +39,9 @@ struct TreeNode {
     TreeNode(int x, TreeNode* left, TreeNode* right) : val(x), left(left), right(right) {}
 };
 
-std::string list_node_to_string(ListNode* head);
+std::string list_node_to_string(const ListNode* head);
 
-std::string tree_node_to_string(TreeNode* root);
+std::string tree_node_to_string(const TreeNode* root);
 
 ListNode* create_list_node_from_vector(const std::vector<int>& vec);
 
