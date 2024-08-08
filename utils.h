@@ -4,8 +4,9 @@
 
 #include <iostream>
 #include <vector>
+#include <limits>
 
-#define NULL_NODE INT_MIN
+constexpr int NULL_NODE = std::numeric_limits<int>::min();
 
 template<typename T>
 std::string vector_to_string(const std::vector<T>& vec);
