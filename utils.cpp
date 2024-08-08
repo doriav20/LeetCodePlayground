@@ -96,49 +96,58 @@ std::string matrix_to_string(const std::vector<std::vector<char>>& mat) {
     return s;
 }
 
-std::string stack_to_string(std::stack<int> stk) {
+std::string stack_to_string(const std::stack<int>& stk) {
     if (stk.empty()) {
         return "[]";
     }
+
+    std::stack<int> stk_copy = stk;
+
     std::string s;
-    s += std::to_string(stk.top());
-    stk.pop();
-    while (!stk.empty()) {
+    s += std::to_string(stk_copy.top());
+    stk_copy.pop();
+    while (!stk_copy.empty()) {
         s = "," + s;
-        s = std::to_string(stk.top()) + s;
-        stk.pop();
+        s = std::to_string(stk_copy.top()) + s;
+        stk_copy.pop();
     }
     s = "[" + s + "]";
     return s;
 }
 
-std::string stack_to_string(std::stack<std::string> stk) {
+std::string stack_to_string(const std::stack<std::string>& stk) {
     if (stk.empty()) {
         return "[]";
     }
+
+    std::stack<std::string> stk_copy = stk;
+
     std::string s;
-    s += stk.top();
-    stk.pop();
-    while (!stk.empty()) {
+    s += stk_copy.top();
+    stk_copy.pop();
+    while (!stk_copy.empty()) {
         s = "," + s;
-        s = stk.top() + s;
-        stk.pop();
+        s = stk_copy.top() + s;
+        stk_copy.pop();
     }
     s = "[" + s + "]";
     return s;
 }
 
-std::string stack_to_string(std::stack<char> stk) {
+std::string stack_to_string(const std::stack<char>& stk) {
     if (stk.empty()) {
         return "[]";
     }
+
+    std::stack<char> stk_copy = stk;
+
     std::string s;
-    s += stk.top();
-    stk.pop();
-    while (!stk.empty()) {
+    s += stk_copy.top();
+    stk_copy.pop();
+    while (!stk_copy.empty()) {
         s = "," + s;
-        s = stk.top() + s;
-        stk.pop();
+        s = stk_copy.top() + s;
+        stk_copy.pop();
     }
     s = "[" + s + "]";
     return s;

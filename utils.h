@@ -19,11 +19,11 @@ std::string matrix_to_string(const std::vector<std::vector<std::string>>& mat);
 
 std::string matrix_to_string(const std::vector<std::vector<char>>& mat);
 
-std::string stack_to_string(std::stack<int> stk);
+std::string stack_to_string(const std::stack<int>& stk);
 
-std::string stack_to_string(std::stack<std::string> stk);
+std::string stack_to_string(const std::stack<std::string>& stk);
 
-std::string stack_to_string(std::stack<char> stk);
+std::string stack_to_string(const std::stack<char>& stk);
 
 struct ListNode {
     int val;
