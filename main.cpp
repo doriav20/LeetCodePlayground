@@ -21,7 +21,7 @@ int sum(int a, int b) {
 int main() {
     cout << boolalpha;
 
-    auto func = sum;
+    const auto func = sum;
 
     TestsTool tests_tool(func);
 
