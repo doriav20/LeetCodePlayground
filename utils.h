@@ -1,5 +1,4 @@
-#ifndef LEETCODEPLAYGROUND_UTILS_H
-#define LEETCODEPLAYGROUND_UTILS_H
+#pragma once
 
 
 #include <iostream>
@@ -47,6 +46,3 @@ std::string tree_node_to_string(const TreeNode* root);
 ListNode* create_list_node_from_vector(const std::vector<int>& vec);
 
 TreeNode* create_tree_node_from_vector(const std::vector<int>& vec);
-
-
-#endif //LEETCODEPLAYGROUND_UTILS_H

@@ -1,5 +1,4 @@
-#ifndef LEETCODEPLAYGROUND_TESTSTOOL_H
-#define LEETCODEPLAYGROUND_TESTSTOOL_H
+#pragma once
 
 #include <iostream>
 #include <vector>
@@ -63,6 +62,3 @@ public:
         }
     }
 };
-
-
-#endif //LEETCODEPLAYGROUND_TESTSTOOL_H

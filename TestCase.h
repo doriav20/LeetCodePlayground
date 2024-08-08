@@ -1,5 +1,4 @@
-#ifndef LEETCODEPLAYGROUND_TESTCASE_H
-#define LEETCODEPLAYGROUND_TESTCASE_H
+#pragma once
 
 
 #include <ostream>
@@ -92,6 +91,3 @@ public:
         return actual == expected;
     }
 };
-
-
-#endif //LEETCODEPLAYGROUND_TESTCASE_H
