@@ -16,14 +16,14 @@ std::string vector_to_string(const std::vector<T>& vec) {
 
     std::ostringstream oss;
 
-    oss << '[';
+    oss << "[ ";
 
     oss << vec[0];
     for (int i = 1; i < vec.size(); i++) {
-        oss << ',' << vec[i];
+        oss << ", " << vec[i];
     }
 
-    oss << ']';
+    oss << " ]";
 
     return oss.str();
 }
@@ -42,14 +42,14 @@ std::string matrix_to_string(const std::vector<std::vector<T>>& mat) {
 
     std::ostringstream oss;
 
-    oss << '[';
+    oss << "[ ";
 
     oss << vector_to_string(mat[0]);
     for (int i = 1; i < mat.size(); i++) {
-        oss << ',' << vector_to_string(mat[i]);
+        oss << ", " << vector_to_string(mat[i]);
     }
 
-    oss << ']';
+    oss << " ]";
 
     return oss.str();
 }
@@ -75,7 +75,7 @@ std::string stack_to_string(const std::stack<T>& stk) {
 
     std::ostringstream oss;
 
-    oss << '[';
+    oss << "[ ";
 
     oss << q.front();
     q.pop();
@@ -85,7 +85,7 @@ std::string stack_to_string(const std::stack<T>& stk) {
         q.pop();
     }
 
-    oss << ']';
+    oss << " ]";
 
     return oss.str();
 }
