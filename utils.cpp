@@ -100,23 +100,28 @@ std::string list_node_to_string(const ListNode* head) {
     if (head == nullptr) {
         return "List is empty";
     }
-    std::string s;
+
+    std::ostringstream oss;
+
     while (head->next) {
-        s += std::to_string(head->val);
-        s += " --> ";
+        oss << head->val << " --> ";
         head = head->next;
     }
-    s += std::to_string(head->val);
-    return s;
+    oss << head->val;
+
+    return oss.str();
 }
 
 std::string _tree_node_to_string(const TreeNode* root) {
     if (root == nullptr) return "";
-    std::string s;
-    s += _tree_node_to_string(root->left);
-    s += std::to_string(root->val) + " ";
-    s += _tree_node_to_string(root->right);
-    return s;
+
+    std::ostringstream oss;
+
+    oss << _tree_node_to_string(root->left);
+    oss << root->val << ' ';
+    oss << _tree_node_to_string(root->right);
+
+    return oss.str();
 }
 
 std::string tree_node_to_string(const TreeNode* root) {
