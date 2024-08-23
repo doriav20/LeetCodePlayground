@@ -12,40 +12,32 @@ private:
     ResultType expected;
 
     template<typename T>
+    void print_argument(const std::vector<T>& arg) {
+        std::cout << vector_to_string(arg);
+    }
+
+    template<typename T>
+    void print_argument(const std::vector<std::vector<T>>& arg) {
+        std::cout << matrix_to_string(arg);
+    }
+
+    template<typename T>
+    void print_argument(const std::stack<T>& arg) {
+        std::cout << stack_to_string(arg);
+    }
+
+    void print_argument(const ListNode* arg) {
+        std::cout << list_node_to_string(arg);
+    }
+
+
+    void print_argument(const TreeNode* arg) {
+        std::cout << tree_node_to_string(arg);
+    }
+
+    template<typename T>
     void print_argument(const T& arg) {
-        if constexpr (std::is_same<T, std::vector<int>>::value ||
-                      std::is_same<T, std::vector<int>&>::value ||
-                      std::is_same<T, std::vector<std::string>>::value ||
-                      std::is_same<T, std::vector<std::string>&>::value ||
-                      std::is_same<T, std::vector<char>>::value ||
-                      std::is_same<T, std::vector<char>&>::value) {
-            std::cout << vector_to_string(static_cast<const T&>(arg));
-        }
-        else if constexpr (std::is_same<T, std::vector<std::vector<int>>>::value ||
-                           std::is_same<T, std::vector<std::vector<int>>&>::value ||
-                           std::is_same<T, std::vector<std::vector<std::string>>>::value ||
-                           std::is_same<T, std::vector<std::vector<std::string>>&>::value ||
-                           std::is_same<T, std::vector<std::vector<char>>>::value ||
-                           std::is_same<T, std::vector<std::vector<char>>&>::value) {
-            std::cout << matrix_to_string(static_cast<const T&>(arg));
-        }
-        else if constexpr (std::is_same<T, std::stack<int>>::value ||
-                           std::is_same<T, std::stack<int>&>::value ||
-                           std::is_same<T, std::stack<std::string>>::value ||
-                           std::is_same<T, std::stack<std::string>&>::value ||
-                           std::is_same<T, std::stack<char>>::value ||
-                           std::is_same<T, std::stack<char>&>::value) {
-            std::cout << stack_to_string(static_cast<const T&>(arg));
-        }
-        else if constexpr (std::is_same<T, ListNode*>::value) {
-            std::cout << list_node_to_string(static_cast<ListNode*>(arg));
-        }
-        else if constexpr (std::is_same<T, TreeNode*>::value) {
-            std::cout << tree_node_to_string(static_cast<TreeNode*>(arg));
-        }
-        else {
-            std::cout << arg;
-        }
+        std::cout << arg;
     }
 
     template<size_t Index = 0>
