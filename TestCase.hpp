@@ -3,7 +3,7 @@
 #include <ostream>
 #include <tuple>
 
-#include "utils.h"
+#include "utils.hpp"
 
 template<typename ResultType, typename... Args>
 class TestCase {

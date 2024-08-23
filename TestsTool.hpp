@@ -4,7 +4,7 @@
 #include <vector>
 #include <windows.h>
 
-#include "TestCase.h"
+#include "TestCase.hpp"
 
 template<typename ResultType, typename... Args>
 class TestsTool {

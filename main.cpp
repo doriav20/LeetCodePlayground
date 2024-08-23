@@ -9,8 +9,8 @@
 #include <unordered_set>
 #include <vector>
 
-#include "TestsTool.h"
-#include "utils.h"
+#include "TestsTool.hpp"
+#include "utils.hpp"
 
 using namespace std;
 

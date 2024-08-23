@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "utils.h"
+#include "utils.hpp"
 
 template<typename T>
 std::string vector_to_string(const std::vector<T>& vec) {
