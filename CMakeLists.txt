@@ -7,4 +7,5 @@ add_executable(LeetCodePlayground main.cpp
         TestCase.hpp
         TestsTool.hpp
         utils.hpp
-        utils.cpp)
+        utils.cpp
+        utils.tpp)

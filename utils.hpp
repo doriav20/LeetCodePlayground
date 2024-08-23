@@ -16,6 +16,8 @@ std::string matrix_to_string(const std::vector<std::vector<T>>& mat);
 template<typename T>
 std::string stack_to_string(const std::stack<T>& stk);
 
+#include "utils.tpp"
+
 struct ListNode {
     int val;
     ListNode* next;
