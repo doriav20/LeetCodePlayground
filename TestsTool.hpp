@@ -31,7 +31,7 @@ public:
 
         if (func != nullptr) {
             for (auto& test_case: test_cases) {
-                auto passed = test_case.run(func, verbose);
+                bool passed = test_case.run(func, verbose);
                 results[i++] = passed;
             }
         }

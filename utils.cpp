@@ -62,7 +62,7 @@ TreeNode* _create_tree_node_from_vector(const std::vector<int>& vec, int rootInd
     if (rootIndex >= vec.size()) return nullptr;
     int val = vec[rootIndex];
     if (val == NULL_NODE) return nullptr;
-    auto root = new TreeNode(val);
+    TreeNode* root = new TreeNode(val);
     root->left = _create_tree_node_from_vector(vec, 2 * rootIndex + 1);
     root->right = _create_tree_node_from_vector(vec, 2 * rootIndex + 2);
     return root;

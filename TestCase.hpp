@@ -63,12 +63,12 @@ public:
     TestCase(Args... args, ResultType expected) : args(std::make_tuple(args...)), expected(expected) {}
 
     template<size_t... IdxSeq>
-    auto call_function(std::index_sequence<IdxSeq...>, ResultType (*func)(Args...)) {
+    ResultType call_function(std::index_sequence<IdxSeq...>, ResultType (*func)(Args...)) {
         return func(std::get<IdxSeq>(args)...);
     }
 
     bool run(ResultType (*func)(Args...), bool verbose = true) {
-        auto actual = call_function(std::index_sequence_for<Args...>{}, func);
+        ResultType actual = call_function(std::index_sequence_for<Args...>{}, func);
         if (!verbose) {
             return actual == expected;
         }
