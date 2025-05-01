@@ -3,9 +3,10 @@ project(LeetCodePlayground)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(LeetCodePlayground main.cpp
-        TestCase.hpp
-        TestsTool.hpp
-        utils.hpp
-        utils.cpp
-        utils.tpp)
+file(GLOB LeetCodePlayground_SRC
+        "*.hpp"
+        "*.tpp"
+        "*.cpp"
+)
+
+add_executable(LeetCodePlayground ${LeetCodePlayground_SRC})
