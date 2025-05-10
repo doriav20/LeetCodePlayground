@@ -2,12 +2,13 @@
 
 #include <iostream>
 
-#include "color.hpp"
+#include "enums.hpp"
 
 namespace colored {
 class ColoredCout {
 public:
     ColoredCout& operator<<(const Color new_color);
+    ColoredCout& operator<<(const FontStyle new_font_style);
 
     ColoredCout& operator<<(std::ostream& (*manip)(std::ostream&));
 
@@ -18,9 +19,9 @@ public:
             return *this;
         }
 
-        setup_color(m_current_color);
+        setup_color(m_current_color, m_font_style);
         std::cout << value;
-        reset_color(m_current_color);
+        reset_color(m_current_color, m_font_style);
         return *this;
     }
 
@@ -29,11 +30,12 @@ public:
 private:
     ColoredCout();
 
-    static void setup_color(const colored::Color color);
+    static void setup_color(const colored::Color color, const colored::FontStyle font_style);
 
-    static void reset_color(const colored::Color color);
+    static void reset_color(const colored::Color color, const colored::FontStyle font_style);
 
     Color m_current_color;
+    FontStyle m_font_style;
 };
 
 extern ColoredCout& cout;

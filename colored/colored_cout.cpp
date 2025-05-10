@@ -12,37 +12,55 @@ ColoredCout& ColoredCout::operator<<(const Color new_color) {
     return *this;
 }
 
+ColoredCout& ColoredCout::operator<<(const FontStyle new_font_style) {
+    m_font_style = new_font_style;
+    return *this;
+}
+
 ColoredCout& ColoredCout::operator<<(std::ostream&(*manip)(std::ostream&)) {
     manip(std::cout);
     return *this;
 }
 
-void ColoredCout::setup_color(const colored::Color color) {
+void ColoredCout::setup_color(const colored::Color color, const colored::FontStyle font_style) {
 #ifdef _WIN32
     const HANDLE console_handle = GetStdHandle(STD_OUTPUT_HANDLE);
 
+    WORD attributes = 0;
     switch (color) {
         case Color::RED:
-            SetConsoleTextAttribute(console_handle, FOREGROUND_RED);
+            attributes |= FOREGROUND_RED;
             break;
         case Color::GREEN:
-            SetConsoleTextAttribute(console_handle, FOREGROUND_GREEN);
+            attributes |= FOREGROUND_GREEN;
             break;
         case Color::BLUE:
-            SetConsoleTextAttribute(console_handle, FOREGROUND_BLUE);
+            attributes |= FOREGROUND_BLUE;
             break;
         case Color::YELLOW:
-            SetConsoleTextAttribute(console_handle, FOREGROUND_RED | FOREGROUND_GREEN);
+            attributes |= FOREGROUND_RED | FOREGROUND_GREEN;
             break;
         case Color::MAGENTA:
-            SetConsoleTextAttribute(console_handle, FOREGROUND_RED | FOREGROUND_BLUE);
+            attributes |= FOREGROUND_RED | FOREGROUND_BLUE;
             break;
         case Color::CYAN:
-            SetConsoleTextAttribute(console_handle, FOREGROUND_GREEN | FOREGROUND_BLUE);
+            attributes |= FOREGROUND_GREEN | FOREGROUND_BLUE;
             break;
         case Color::WHITE:
-            SetConsoleTextAttribute(console_handle, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+            attributes |= FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
             break;
+    }
+
+    switch (font_style) {
+        case FontStyle::NORMAL:
+            break;
+        case FontStyle::BOLD:
+            attributes |= FOREGROUND_INTENSITY;
+            break;
+    }
+
+    if (attributes != 0) {
+        SetConsoleTextAttribute(console_handle, attributes);
     }
 #else
     switch (color) {
@@ -68,13 +86,21 @@ void ColoredCout::setup_color(const colored::Color color) {
             std::cout << "\033[37m";
             break;
     }
+
+    switch (font_style) {
+        case FontStyle::NORMAL:
+            break;
+        case FontStyle::BOLD:
+            std::cout << "\033[1m";
+            break;
+    }
 #endif
 }
 
-void ColoredCout::reset_color(const colored::Color color) {
+void ColoredCout::reset_color(const colored::Color color, const colored::FontStyle font_style) {
 #ifdef _WIN32
     const HANDLE console_handle = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(console_handle, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+    SetConsoleTextAttribute(console_handle, (FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE) & ~FOREGROUND_INTENSITY);
 #else
     std::cout << "\033[0m";
 #endif
@@ -85,7 +111,7 @@ ColoredCout& ColoredCout::get_instance() {
     return instance;
 }
 
-ColoredCout::ColoredCout() : m_current_color(Color::NO_COLOR) {}
+ColoredCout::ColoredCout() : m_current_color(Color::NO_COLOR), m_font_style(FontStyle::NORMAL) {}
 
 ColoredCout& cout = ColoredCout::get_instance();
 }

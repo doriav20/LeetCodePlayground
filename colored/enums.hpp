@@ -11,4 +11,9 @@ enum class Color {
     CYAN,
     WHITE,
 };
+
+enum class FontStyle {
+    NORMAL,
+    BOLD,
+};
 }
