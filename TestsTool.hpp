@@ -49,7 +49,7 @@ public:
             }
         }
         if (all_passed) {
-            colored::cout << colored::Color::GREEN << "All tests passed" << std::endl;
+            colored::cout << colored::Color::GREEN << colored::FontStyle::BOLD << "All tests passed" << std::endl;
         }
     }
 };
