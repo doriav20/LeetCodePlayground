@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "TestCase.hpp"
-#include "colored/colored_cout.hpp"
+#include "colored/colored.hpp"
 
 template<typename ResultType, typename... Args>
 class TestsTool {
@@ -41,15 +41,15 @@ public:
         bool all_passed = true;
         for (i = 0; i < results.size(); i++) {
             if (results[i]) {
-                colored::cout << colored::Color::GREEN << "Test " << i + 1 << " passed" << std::endl;
+                std::cout << colored::Color::GREEN << "Test " << i + 1 << " passed" << std::endl;
             }
             else {
-                colored::cout << colored::Color::RED << "Test " << i + 1 << " failed" << std::endl;
+                std::cout << colored::Color::RED << "Test " << i + 1 << " failed" << std::endl;
                 all_passed = false;
             }
         }
         if (all_passed) {
-            colored::cout << colored::Color::GREEN << colored::FontStyle::BOLD << "All tests passed" << std::endl;
+            std::cout << colored::Color::GREEN << colored::FontStyle::BOLD << "All tests passed" << std::endl;
         }
     }
 };

@@ -1,5 +1,8 @@
 #pragma once
 
+#include <variant>
+#include <iostream>
+
 namespace colored {
 enum class Color {
     NO_COLOR,
@@ -16,4 +19,6 @@ enum class FontStyle {
     NORMAL,
     BOLD,
 };
+
+std::ostream& operator<<(std::ostream& os, const std::variant<Color, FontStyle> style);
 }
