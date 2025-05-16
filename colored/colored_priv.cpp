@@ -2,10 +2,7 @@
 #include "colored_priv.hpp"
 
 #include <iostream>
-
-#ifdef _WIN32
-#include <windows.h>
-#endif
+#include <format>
 
 namespace colored {
 namespace detail {
@@ -24,53 +21,6 @@ void apply_font_style(const FontStyle font_style, const StyleState& current_stat
 }
 
 void apply_style_state(const StyleState& current_state) {
-#ifdef _WIN32
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    if (hConsole == INVALID_HANDLE_VALUE) {
-        return;
-    }
-
-    DWORD color_attributes = 0;
-
-    switch (current_state.color) {
-        case Color::RED:
-            color_attributes |= FOREGROUND_RED;
-            break;
-        case Color::GREEN:
-            color_attributes |= FOREGROUND_GREEN;
-            break;
-        case Color::BLUE:
-            color_attributes |= FOREGROUND_BLUE;
-            break;
-        case Color::YELLOW:
-            color_attributes |= FOREGROUND_RED | FOREGROUND_GREEN;
-            break;
-        case Color::MAGENTA:
-            color_attributes |= FOREGROUND_RED | FOREGROUND_BLUE;
-            break;
-        case Color::CYAN:
-            color_attributes |= FOREGROUND_GREEN | FOREGROUND_BLUE;
-            break;
-        case Color::WHITE:
-            color_attributes |= FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
-            break;
-        default:
-            break;
-    }
-
-    switch (current_state.font_style) {
-        case FontStyle::BOLD:
-            color_attributes |= FOREGROUND_INTENSITY;
-            break;
-        case FontStyle::NORMAL:
-            color_attributes &= ~FOREGROUND_INTENSITY;
-            break;
-        default:
-            break;
-    }
-
-    SetConsoleTextAttribute(hConsole, color_attributes);
-#else
     std::string color_code;
     std::string font_style_code;
     switch (current_state.color) {
@@ -114,54 +64,6 @@ void apply_style_state(const StyleState& current_state) {
 
     const std::string escape_code = std::format("\033[{};{}m", font_style_code, color_code);
     std::cout << escape_code;
-#endif
-}
-
-void update_style_state(StyleState& style_state) {
-#ifdef _WIN32
-    CONSOLE_SCREEN_BUFFER_INFO csbi;
-    if (!GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
-        return;
-    }
-
-    const DWORD color_attributes = csbi.wAttributes & (FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    switch (color_attributes) {
-        case FOREGROUND_RED:
-            style_state.color = Color::RED;
-            break;
-        case FOREGROUND_GREEN:
-            style_state.color = Color::GREEN;
-            break;
-        case FOREGROUND_BLUE:
-            style_state.color = Color::BLUE;
-            break;
-        case FOREGROUND_RED | FOREGROUND_GREEN:
-            style_state.color = Color::YELLOW;
-            break;
-        case FOREGROUND_GREEN | FOREGROUND_BLUE:
-            style_state.color = Color::CYAN;
-            break;
-        case FOREGROUND_RED | FOREGROUND_BLUE:
-            style_state.color = Color::MAGENTA;
-            break;
-        case FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE:
-            style_state.color = Color::WHITE;
-            break;
-        default:
-            style_state.color = Color::NO_COLOR;
-            break;
-    }
-
-    const DWORD font_attributes = csbi.wAttributes & (FOREGROUND_INTENSITY);
-    switch (font_attributes) {
-        case FOREGROUND_INTENSITY:
-            style_state.font_style = FontStyle::BOLD;
-            break;
-        default:
-            style_state.font_style = FontStyle::NORMAL;
-            break;
-    }
-#endif
 }
 }
 }

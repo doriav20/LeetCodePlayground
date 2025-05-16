@@ -10,7 +10,6 @@ std::ostream& operator<<(std::ostream& os, const std::variant<Color, FontStyle> 
     }
 
     static detail::StyleState state(Color::NO_COLOR, FontStyle::NORMAL);
-    detail::update_style_state(state);
 
     if (std::holds_alternative<Color>(style)) {
         detail::apply_color(std::get<Color>(style), state);
