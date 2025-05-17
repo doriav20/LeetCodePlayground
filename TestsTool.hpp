@@ -41,15 +41,15 @@ public:
         bool all_passed = true;
         for (i = 0; i < results.size(); i++) {
             if (results[i]) {
-                std::cout << colored::green << "Test " << i + 1 << " passed" << std::endl;
+                std::cout << colored::green << "Test " << i + 1 << " passed" << colored::reset << std::endl;
             }
             else {
-                std::cout << colored::red << "Test " << i + 1 << " failed" << std::endl;
+                std::cout << colored::red << "Test " << i + 1 << " failed" << colored::reset << std::endl;
                 all_passed = false;
             }
         }
         if (all_passed) {
-            std::cout << colored::green << colored::bold << "All tests passed" << std::endl;
+            std::cout << colored::green << colored::bold << "All tests passed" << colored::reset << std::endl;
         }
     }
 };
