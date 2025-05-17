@@ -89,13 +89,13 @@ TestCase<ResultType, Args...>::TestCase(Args... args, ResultType expected) :
 
 template<typename ResultType, typename... Args>
 template<size_t... IdxSeq>
-ResultType TestCase<ResultType, Args...>::call_function(std::index_sequence<IdxSeq...>, ResultType (* func)(Args...))
+ResultType TestCase<ResultType, Args...>::call_function(std::index_sequence<IdxSeq...>, ResultType (*func)(Args...))
 {
     return func(std::get<IdxSeq>(args)...);
 }
 
 template<typename ResultType, typename... Args>
-bool TestCase<ResultType, Args...>::run(ResultType (* func)(Args...), bool verbose)
+bool TestCase<ResultType, Args...>::run(ResultType (*func)(Args...), bool verbose)
 {
     ResultType actual = call_function(std::index_sequence_for<Args...>{}, func);
     if (!verbose)

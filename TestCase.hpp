@@ -21,9 +21,9 @@ public:
     TestCase(Args... args, ResultType expected);
 
     template<size_t... IdxSeq>
-    ResultType call_function(std::index_sequence<IdxSeq...>, ResultType (* func)(Args...));
+    ResultType call_function(std::index_sequence<IdxSeq...>, ResultType (*func)(Args...));
 
-    bool run(ResultType (* func)(Args...), bool verbose = true);
+    bool run(ResultType (*func)(Args...), bool verbose = true);
 };
 
 #include "TestCase.tpp"
