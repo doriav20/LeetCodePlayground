@@ -18,7 +18,8 @@ std::string stack_to_string(const std::stack<T>& stk);
 
 #include "utils.tpp"
 
-struct ListNode {
+struct ListNode
+{
     int val;
     ListNode* next;
 
@@ -29,7 +30,8 @@ struct ListNode {
     ListNode(int x, ListNode* next) : val(x), next(next) {}
 };
 
-struct TreeNode {
+struct TreeNode
+{
     int val;
     TreeNode* left;
     TreeNode* right;
