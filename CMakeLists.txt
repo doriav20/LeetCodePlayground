@@ -7,6 +7,9 @@ file(GLOB LeetCodePlayground_SRC
         "*.hpp"
         "*.tpp"
         "*.cpp"
+        "colored/*.hpp"
+        "colored/*.tpp"
+        "colored/*.cpp"
 )
 
 add_executable(LeetCodePlayground ${LeetCodePlayground_SRC})

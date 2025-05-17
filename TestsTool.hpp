@@ -1,10 +1,9 @@
 #pragma once
 
-#include <iostream>
 #include <vector>
-#include <windows.h>
 
 #include "TestCase.hpp"
+#include "colored/colored.hpp"
 
 template<typename ResultType, typename... Args>
 class TestsTool {
@@ -39,26 +38,18 @@ public:
             throw std::runtime_error("No function is set");
         }
 
-        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
         bool all_passed = true;
         for (i = 0; i < results.size(); i++) {
             if (results[i]) {
-                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
-                std::cout << "Test " << i + 1 << " passed" << std::endl;
-                SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+                std::cout << colored::green << "Test " << i + 1 << " passed" << colored::reset << std::endl;
             }
             else {
-                SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
-                std::cout << "Test " << i + 1 << " failed" << std::endl;
-                SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+                std::cout << colored::red << "Test " << i + 1 << " failed" << colored::reset << std::endl;
                 all_passed = false;
             }
         }
         if (all_passed) {
-            SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
-            std::cout << "All tests passed" << std::endl;
-            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+            std::cout << colored::green << colored::bold << "All tests passed" << colored::reset << std::endl;
         }
     }
 };
