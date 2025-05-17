@@ -21,7 +21,7 @@ public:
 
     void add_test_case(Args... args, ResultType expected);
 
-    void run_tests(bool verbose = true);
+    void run_tests(const bool verbose = true);
 };
 
 #include "TestsTool.tpp"

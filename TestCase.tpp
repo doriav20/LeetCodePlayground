@@ -78,13 +78,13 @@ void TestCase<ResultType, Args...>::print_expected()
 }
 
 template<typename ResultType, typename... Args>
-void TestCase<ResultType, Args...>::print_result(ResultType result)
+void TestCase<ResultType, Args...>::print_result(const ResultType& result)
 {
     print_argument(result);
 }
 
 template<typename ResultType, typename... Args>
-TestCase<ResultType, Args...>::TestCase(Args... args, ResultType expected) :
+TestCase<ResultType, Args...>::TestCase(const Args... args, const ResultType expected) :
         args(std::make_tuple(args...)), expected(expected) {}
 
 template<typename ResultType, typename... Args>
@@ -95,9 +95,9 @@ ResultType TestCase<ResultType, Args...>::call_function(std::index_sequence<IdxS
 }
 
 template<typename ResultType, typename... Args>
-bool TestCase<ResultType, Args...>::run(ResultType (*func)(Args...), bool verbose)
+bool TestCase<ResultType, Args...>::run(ResultType (* func)(Args...), const bool verbose)
 {
-    ResultType actual = call_function(std::index_sequence_for<Args...>{}, func);
+    const ResultType actual = call_function(std::index_sequence_for<Args...>{}, func);
     if (!verbose)
     {
         return actual == expected;

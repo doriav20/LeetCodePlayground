@@ -14,7 +14,7 @@ void TestsTool<ResultType, Args...>::add_test_case(Args... args, ResultType expe
 }
 
 template<typename ResultType, typename... Args>
-void TestsTool<ResultType, Args...>::run_tests(bool verbose)
+void TestsTool<ResultType, Args...>::run_tests(const bool verbose)
 {
     if (func == nullptr)
     {
@@ -26,7 +26,7 @@ void TestsTool<ResultType, Args...>::run_tests(bool verbose)
 
     for (TestCase<ResultType, Args...>& test_case : test_cases)
     {
-        bool passed = test_case.run(func, verbose);
+        const bool passed = test_case.run(func, verbose);
         results[i++] = passed;
     }
 

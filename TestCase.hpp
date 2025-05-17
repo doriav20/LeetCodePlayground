@@ -15,15 +15,15 @@ private:
 
     void print_expected();
 
-    void print_result(ResultType result);
+    void print_result(const ResultType& result);
 
 public:
-    TestCase(Args... args, ResultType expected);
+    TestCase(const Args... args, const ResultType expected);
 
     template<size_t... IdxSeq>
     ResultType call_function(std::index_sequence<IdxSeq...>, ResultType (*func)(Args...));
 
-    bool run(ResultType (*func)(Args...), bool verbose = true);
+    bool run(ResultType (*func)(Args...), const bool verbose = true);
 };
 
 #include "TestCase.tpp"
