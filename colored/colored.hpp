@@ -33,7 +33,7 @@ std::basic_ostream<CharT>& reset(std::basic_ostream<CharT>& stream)
         return stream;
     }
 
-    stream << "\033[00m";
+    stream << "\033[0m";
     return stream;
 }
 
