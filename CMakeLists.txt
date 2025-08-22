@@ -10,3 +10,5 @@ file(GLOB_RECURSE LeetCodePlayground_SRC
 )
 
 add_executable(LeetCodePlayground ${LeetCodePlayground_SRC})
+
+target_include_directories(LeetCodePlayground PRIVATE ${PROJECT_SOURCE_DIR}/src)
