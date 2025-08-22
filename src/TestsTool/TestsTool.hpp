@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "TestCase.hpp"
+#include "TestCase/TestCase.hpp"
 #include "colored/colored.hpp"
 
 template<typename ResultType, typename... Args>
