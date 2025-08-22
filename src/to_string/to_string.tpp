@@ -1,5 +1,3 @@
-#pragma once
-
 #include <string>
 #include <sstream>
 #include <vector>
@@ -30,7 +28,7 @@ std::string vector_to_string(const std::vector<T>& vec)
 }
 
 template<typename T>
-std::string matrix_to_string(const std::vector<std::vector<T>>& mat)
+std::string matrix_to_string(const std::vector<std::vector<T> >& mat)
 {
     if (mat.empty())
     {

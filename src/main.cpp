@@ -10,7 +10,6 @@
 #include <vector>
 
 #include "TestsTool.hpp"
-#include "utils.hpp"
 
 using namespace std;
 
