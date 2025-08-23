@@ -1,24 +1,28 @@
 #pragma once
 
-#include <stack>
 #include <string>
-#include <vector>
 
-#include "data_structures/ListNode/ListNode.hpp"
-#include "data_structures/TreeNode/TreeNode.hpp"
+#include "concepts/concepts.hpp"
 
+template<Vector T>
+    requires Streamable<typename bare_t<T>::value_type>
+std::string to_string(const T& vec);
 
-template<typename T>
-std::string vector_to_string(const std::vector<T>& vec);
+template<Matrix T>
+    requires Streamable<typename bare_t<typename bare_t<T>::value_type>::value_type>
+std::string to_string(const T& mat);
 
-template<typename T>
-std::string matrix_to_string(const std::vector<std::vector<T> >& mat);
+template<Stack T>
+    requires Streamable<typename bare_t<T>::value_type>
+std::string to_string(const T& stk);
 
-template<typename T>
-std::string stack_to_string(const std::stack<T>& stk);
+template<Streamable T>
+std::string to_string(const T& value);
 
-std::string list_node_to_string(const ListNode* head);
+template<ListNodePtr T>
+std::string to_string(const T& head);
 
-std::string tree_node_to_string(const TreeNode* root);
+template<TreeNodePtr T>
+std::string to_string(const T& root);
 
 #include "to_string.tpp"

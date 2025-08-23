@@ -4,8 +4,11 @@
 #include <stack>
 #include <queue>
 
-template<typename T>
-std::string vector_to_string(const std::vector<T>& vec)
+#include "concepts/concepts.hpp"
+
+template<Vector T>
+    requires Streamable<typename bare_t<T>::value_type>
+std::string to_string(const T& vec)
 {
     if (vec.empty())
     {
@@ -27,8 +30,9 @@ std::string vector_to_string(const std::vector<T>& vec)
     return oss.str();
 }
 
-template<typename T>
-std::string matrix_to_string(const std::vector<std::vector<T> >& mat)
+template<Matrix T>
+    requires Streamable<typename bare_t<typename bare_t<T>::value_type>::value_type>
+std::string to_string(const T& mat)
 {
     if (mat.empty())
     {
@@ -39,10 +43,10 @@ std::string matrix_to_string(const std::vector<std::vector<T> >& mat)
 
     oss << "[ ";
 
-    oss << vector_to_string(mat[0]);
+    oss << to_string(mat[0]);
     for (int i = 1; i < mat.size(); i++)
     {
-        oss << ", " << vector_to_string(mat[i]);
+        oss << ", " << to_string(mat[i]);
     }
 
     oss << " ]";
@@ -50,16 +54,17 @@ std::string matrix_to_string(const std::vector<std::vector<T> >& mat)
     return oss.str();
 }
 
-template<typename T>
-std::string stack_to_string(const std::stack<T>& stk)
+template<Stack T>
+    requires Streamable<typename bare_t<T>::value_type>
+std::string to_string(const T& stk)
 {
     if (stk.empty())
     {
         return "[]";
     }
 
-    std::stack<T> stk_copy = stk;
-    std::queue<T> q;
+    std::stack<typename bare_t<T>::value_type> stk_copy = stk;
+    std::queue<typename bare_t<T>::value_type> q;
     while (!stk_copy.empty())
     {
         q.push(stk_copy.top());
@@ -81,5 +86,62 @@ std::string stack_to_string(const std::stack<T>& stk)
 
     oss << " ]";
 
+    return oss.str();
+}
+
+template<ListNodePtr T>
+std::string to_string(const T& head)
+{
+    if (head == nullptr)
+    {
+        return "List is empty";
+    }
+
+    std::ostringstream oss;
+
+    T pos = head;
+    while (pos->next)
+    {
+        oss << pos->val << " --> ";
+        pos = pos->next;
+    }
+    oss << pos->val;
+
+    return oss.str();
+}
+
+template<TreeNodePtr T>
+std::string tree_node_to_string_helper(const T& root)
+{
+    if (root == nullptr)
+    {
+        return "";
+    }
+
+    std::ostringstream oss;
+
+    oss << tree_node_to_string_helper(root->left);
+    oss << root->val << ' ';
+    oss << tree_node_to_string_helper(root->right);
+
+    return oss.str();
+}
+
+template<TreeNodePtr T>
+std::string to_string(const T& root)
+{
+    if (root == nullptr)
+    {
+        return "Tree is empty";
+    }
+
+    return tree_node_to_string_helper(root);
+}
+
+template<Streamable T>
+std::string to_string(const T& value)
+{
+    std::ostringstream oss;
+    oss << value;
     return oss.str();
 }
