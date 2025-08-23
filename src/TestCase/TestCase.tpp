@@ -2,60 +2,12 @@
 #include "data_structures/ListNode/ListNode.hpp"
 #include "data_structures/TreeNode/TreeNode.hpp"
 
-template<typename T>
-concept IsVector =
-requires(T t) {
-    typename T::value_type;
-    requires std::same_as<T, std::vector<typename T::value_type>>;
-};
-
-template<typename T>
-concept IsMatrix =
-requires(T t) {
-    typename T::value_type;
-    requires std::same_as<typename T::value_type, std::vector<typename T::value_type::value_type>>;
-};
-
-template<typename T>
-concept IsStack =
-requires(T t) {
-    typename T::value_type;
-    requires std::same_as<T, std::stack<typename T::value_type>>;
-};
-
-template<typename T>
-concept IsListNodePtr = std::same_as<T, const ListNode*>;
-template<typename T>
-concept IsTreeNodePtr = std::same_as<T, const TreeNode*>;
 
 template<typename ResultType, typename... Args>
 template<typename T>
 void TestCase<ResultType, Args...>::print_argument(const T& arg)
 {
-    if constexpr (IsMatrix<T>)
-    {
-        std::cout << matrix_to_string(arg);
-    }
-    else if constexpr (IsVector<T>)
-    {
-        std::cout << vector_to_string(arg);
-    }
-    else if constexpr (IsStack<T>)
-    {
-        std::cout << stack_to_string(arg);
-    }
-    else if constexpr (IsListNodePtr<T>)
-    {
-        std::cout << list_node_to_string(arg);
-    }
-    else if constexpr (IsTreeNodePtr<T>)
-    {
-        std::cout << tree_node_to_string(arg);
-    }
-    else
-    {
-        std::cout << arg;
-    }
+    std::cout << to_string(arg);
 }
 
 template<typename ResultType, typename... Args>
