@@ -9,10 +9,10 @@ template<typename ResultType, typename... Args>
 class TestsTool
 {
 private:
-    std::vector<TestCase<ResultType, Args...>> test_cases;
+    std::vector<TestCase<ResultType, Args...>> m_test_cases;
 
     using FunctionType = ResultType (*)(Args...);
-    FunctionType func;
+    FunctionType m_func;
 
 public:
     explicit TestsTool(FunctionType func);
