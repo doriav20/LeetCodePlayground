@@ -4,8 +4,8 @@ template<typename ResultType, typename... Args>
 class TestCase
 {
 private:
-    std::tuple<Args...> args;
-    ResultType expected;
+    std::tuple<Args...> m_args;
+    ResultType m_expected;
 
     template<typename T>
     void print_argument(const T& arg);

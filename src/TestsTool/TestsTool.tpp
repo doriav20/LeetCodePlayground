@@ -1,32 +1,32 @@
 template<typename ResultType, typename... Args>
-TestsTool<ResultType, Args...>::TestsTool(TestsTool::FunctionType func) : func(func) {}
+TestsTool<ResultType, Args...>::TestsTool(TestsTool::FunctionType func) : m_func(func) {}
 
 template<typename ResultType, typename... Args>
 void TestsTool<ResultType, Args...>::add_test_case(const TestCase<ResultType, Args...>& test_case)
 {
-    test_cases.push_back(test_case);
+    m_test_cases.push_back(test_case);
 }
 
 template<typename ResultType, typename... Args>
 void TestsTool<ResultType, Args...>::add_test_case(Args... args, ResultType expected)
 {
-    test_cases.emplace_back(args..., expected);
+    m_test_cases.emplace_back(args..., expected);
 }
 
 template<typename ResultType, typename... Args>
 void TestsTool<ResultType, Args...>::run_tests(const bool verbose)
 {
-    if (func == nullptr)
+    if (m_func == nullptr)
     {
         throw std::runtime_error("No function is set");
     }
 
-    std::vector<bool> results(test_cases.size());
-    int i = 0;
+    std::vector<bool> results(m_test_cases.size());
+    size_t i = 0;
 
-    for (TestCase<ResultType, Args...>& test_case : test_cases)
+    for (TestCase<ResultType, Args...>& test_case : m_test_cases)
     {
-        const bool passed = test_case.run(func, verbose);
+        const bool passed = test_case.run(m_func, verbose);
         results[i++] = passed;
     }
 

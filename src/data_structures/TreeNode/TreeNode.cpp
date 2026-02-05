@@ -1,6 +1,6 @@
 #include "TreeNode.hpp"
 
-TreeNode* create_tree_node_from_vector_helper(const std::vector<int>& vec, int rootIndex)
+TreeNode* create_tree_node_from_vector_helper(const std::vector<int>& vec, const size_t rootIndex)
 {
     if (rootIndex >= vec.size())
     {

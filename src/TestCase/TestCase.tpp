@@ -16,7 +16,7 @@ void TestCase<ResultType, Args...>::print_arguments()
 {
     if constexpr (Index < sizeof...(Args))
     {
-        print_argument(std::get<Index>(args));
+        print_argument(std::get<Index>(m_args));
         if constexpr (Index + 1 < sizeof...(Args))
         {
             std::cout << ", ";
@@ -28,7 +28,7 @@ void TestCase<ResultType, Args...>::print_arguments()
 template<typename ResultType, typename... Args>
 void TestCase<ResultType, Args...>::print_expected()
 {
-    print_argument(expected);
+    print_argument(m_expected);
 }
 
 template<typename ResultType, typename... Args>
@@ -39,13 +39,13 @@ void TestCase<ResultType, Args...>::print_result(const ResultType& result)
 
 template<typename ResultType, typename... Args>
 TestCase<ResultType, Args...>::TestCase(const Args... args, const ResultType expected) :
-        args(std::make_tuple(args...)), expected(expected) {}
+        m_args(std::make_tuple(args...)), m_expected(expected) {}
 
 template<typename ResultType, typename... Args>
 template<size_t... IdxSeq>
 ResultType TestCase<ResultType, Args...>::call_function(std::index_sequence<IdxSeq...>, ResultType (*func)(Args...))
 {
-    return func(std::get<IdxSeq>(args)...);
+    return func(std::get<IdxSeq>(m_args)...);
 }
 
 template<typename ResultType, typename... Args>
@@ -54,7 +54,7 @@ bool TestCase<ResultType, Args...>::run(ResultType (* func)(Args...), const bool
     const ResultType actual = call_function(std::index_sequence_for<Args...>{}, func);
     if (!verbose)
     {
-        return actual == expected;
+        return actual == m_expected;
     }
     if constexpr (sizeof...(Args) > 0)
     {
@@ -72,5 +72,5 @@ bool TestCase<ResultType, Args...>::run(ResultType (* func)(Args...), const bool
     std::cout << std::endl;
 
     std::cout << std::endl;
-    return actual == expected;
+    return actual == m_expected;
 }
