@@ -22,7 +22,7 @@ void TestsTool<ResultType, Args...>::run_tests(const bool verbose)
     }
 
     std::vector<bool> results(test_cases.size());
-    int i = 0;
+    size_t i = 0;
 
     for (TestCase<ResultType, Args...>& test_case : test_cases)
     {
