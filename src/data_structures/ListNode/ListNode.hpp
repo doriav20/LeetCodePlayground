@@ -7,11 +7,11 @@ struct ListNode
     int val;
     ListNode* next;
 
-    ListNode() : val(0), next(nullptr) {}
+    ListNode() : ListNode(0) {}
 
-    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(const int x) : ListNode(x, nullptr) {}
 
-    ListNode(int x, ListNode* next) : val(x), next(next) {}
+    ListNode(const int x, ListNode* next_ptr) : val(x), next(next_ptr) {}
 };
 
 ListNode* create_list_node_from_vector(const std::vector<int>& vec);

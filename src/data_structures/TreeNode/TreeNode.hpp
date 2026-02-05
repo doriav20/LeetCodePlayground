@@ -11,11 +11,11 @@ struct TreeNode
     TreeNode* left;
     TreeNode* right;
 
-    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode() : TreeNode(0) {}
 
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(const int x) : TreeNode(x, nullptr, nullptr) {}
 
-    TreeNode(int x, TreeNode* left, TreeNode* right) : val(x), left(left), right(right) {}
+    TreeNode(const int x, TreeNode* left_ptr, TreeNode* right_ptr) : val(x), left(left_ptr), right(right_ptr) {}
 };
 
 TreeNode* create_tree_node_from_vector(const std::vector<int>& vec);
