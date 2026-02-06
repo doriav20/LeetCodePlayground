@@ -3,6 +3,10 @@ project(LeetCodePlayground)
 
 set(CMAKE_CXX_STANDARD 23)
 
+option(WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
+
+message(STATUS "WARNINGS_AS_ERRORS: ${WARNINGS_AS_ERRORS}")
+
 file(GLOB_RECURSE LeetCodePlayground_SRC
         CONFIGURE_DEPENDS
         src/*.cpp
