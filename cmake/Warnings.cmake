@@ -3,7 +3,6 @@ add_library(project_warnings INTERFACE)
 if (MSVC)
     target_compile_options(project_warnings INTERFACE
             /W4                 # High warning level
-            /WX                 # Warnings as errors
             /permissive-        # Enforce standard conformance
             /w14242             # 'identifier': conversion, possible loss of data
             /w14254             # 'operator': conversion, possible loss of data
@@ -13,12 +12,16 @@ if (MSVC)
             /we4289             # loop variable used outside scope
             /w14296             # expression always false
     )
+
+    if (WARNINGS_AS_ERRORS)
+        target_compile_options(project_warnings INTERFACE /WX)
+    endif ()
+
 else ()
     target_compile_options(project_warnings INTERFACE
             -Wall
             -Wextra
             -Wpedantic
-            -Werror
             -Wshadow
             -Wconversion
             -Wsign-conversion
@@ -35,4 +38,9 @@ else ()
             -Wlogical-op
             -Wuseless-cast
     )
+
+    if (WARNINGS_AS_ERRORS)
+        target_compile_options(project_warnings INTERFACE -Werror)
+    endif ()
+
 endif ()
