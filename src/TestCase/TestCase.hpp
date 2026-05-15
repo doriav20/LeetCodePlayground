@@ -26,4 +26,25 @@ public:
     bool run(ResultType (*func)(Args...), const bool verbose = true);
 };
 
+template<typename... Args>
+class TestCase<void, Args...>
+{
+private:
+    std::tuple<Args...> m_args;
+
+    template<typename T>
+    void print_argument(const T& arg);
+
+    template<size_t Index = 0>
+    void print_arguments();
+
+public:
+    TestCase(const Args... args);
+
+    template<size_t... IdxSeq>
+    void call_function(std::index_sequence<IdxSeq...>, void (*func)(Args...));
+
+    bool run(void (*func)(Args...), const bool verbose = true);
+};
+
 #include "TestCase.tpp"
