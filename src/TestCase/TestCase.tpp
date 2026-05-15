@@ -74,3 +74,58 @@ bool TestCase<ResultType, Args...>::run(ResultType (* func)(Args...), const bool
     std::cout << std::endl;
     return actual == m_expected;
 }
+
+
+template<typename... Args>
+template<typename T>
+void TestCase<void, Args...>::print_argument(const T& arg)
+{
+    std::cout << to_string(arg);
+}
+
+template<typename... Args>
+template<size_t Index>
+void TestCase<void, Args...>::print_arguments()
+{
+    if constexpr (Index < sizeof...(Args))
+    {
+        print_argument(std::get<Index>(m_args));
+        if constexpr (Index + 1 < sizeof...(Args))
+        {
+            std::cout << ", ";
+        }
+        print_arguments < Index + 1 > ();
+    }
+}
+
+template<typename... Args>
+TestCase<void, Args...>::TestCase(const Args... args) : m_args(std::make_tuple(args...)) {}
+
+template<typename... Args>
+template<size_t... IdxSeq>
+void TestCase<void, Args...>::call_function(std::index_sequence<IdxSeq...>, void (*func)(Args...))
+{
+    func(std::get<IdxSeq>(m_args)...);
+}
+
+template<typename... Args>
+bool TestCase<void, Args...>::run(void (* func)(Args...), const bool verbose)
+{
+    call_function(std::index_sequence_for<Args...>{}, func);
+    if (!verbose)
+    {
+        return true;
+    }
+    if constexpr (sizeof...(Args) > 0)
+    {
+        std::cout << "Arguments: ";
+        print_arguments();
+        std::cout << std::endl;
+    }
+
+    std::cout << "Expected: **void**" << std::endl <<
+            "Actual: **void**" << std::endl;
+
+    std::cout << std::endl;
+    return true;
+}
