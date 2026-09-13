@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <iostream>
 #include <stdexcept>
+#include <utility>
 #include <vector>
 
 #include "TestCase/TestCase.hpp"
@@ -22,7 +23,7 @@ public:
 
     void add_test_case(const TestCase<ResultType, Args...>& test_case);
 
-    void add_test_case(Args... args, ResultType expected);
+    void add_test_case(bare_t<Args>... args, bare_t<ResultType> expected);
 
     void run_tests(const bool verbose = true);
 };
@@ -41,7 +42,7 @@ public:
 
     void add_test_case(const TestCase<void, Args...>& test_case);
 
-    void add_test_case(Args... args);
+    void add_test_case(bare_t<Args>... args);
 
     void run_tests(const bool verbose = true);
 };

@@ -38,9 +38,9 @@ void TestsTool<ResultType, Args...>::add_test_case(const TestCase<ResultType, Ar
 }
 
 template<typename ResultType, typename... Args>
-void TestsTool<ResultType, Args...>::add_test_case(Args... args, ResultType expected)
+void TestsTool<ResultType, Args...>::add_test_case(bare_t<Args>... args, bare_t<ResultType> expected)
 {
-    m_test_cases.emplace_back(args..., expected);
+    m_test_cases.emplace_back(std::move(args)..., std::move(expected));
 }
 
 template<typename ResultType, typename... Args>
@@ -71,9 +71,9 @@ void TestsTool<void, Args...>::add_test_case(const TestCase<void, Args...>& test
 }
 
 template<typename... Args>
-void TestsTool<void, Args...>::add_test_case(Args... args)
+void TestsTool<void, Args...>::add_test_case(bare_t<Args>... args)
 {
-    m_test_cases.emplace_back(args...);
+    m_test_cases.emplace_back(std::move(args)...);
 }
 
 template<typename... Args>

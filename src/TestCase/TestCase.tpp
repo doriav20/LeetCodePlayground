@@ -23,15 +23,8 @@ void print_arguments(const std::tuple<Ts...>& args)
 
 
 template<typename ResultType, typename... Args>
-TestCase<ResultType, Args...>::TestCase(const Args... args, const ResultType expected) :
-        m_args(std::make_tuple(args...)), m_expected(expected) {}
-
-template<typename ResultType, typename... Args>
-template<size_t... IdxSeq>
-ResultType TestCase<ResultType, Args...>::call_function(std::index_sequence<IdxSeq...>, ResultType (*func)(Args...))
-{
-    return func(std::get<IdxSeq>(m_args)...);
-}
+TestCase<ResultType, Args...>::TestCase(bare_t<Args>... args, bare_t<ResultType> expected) :
+        m_args(std::move(args)...), m_expected(std::move(expected)) {}
 
 template<typename ResultType, typename... Args>
 bool TestCase<ResultType, Args...>::run(ResultType (* func)(Args...), const bool verbose)
@@ -41,7 +34,8 @@ bool TestCase<ResultType, Args...>::run(ResultType (* func)(Args...), const bool
         _internal::print_arguments(m_args);
     }
 
-    const ResultType actual = call_function(std::index_sequence_for<Args...>{}, func);
+    std::tuple<bare_t<Args>...> args = m_args;
+    const bare_t<ResultType> actual = std::apply(func, args);
     if (!verbose)
     {
         return actual == m_expected;
@@ -56,14 +50,7 @@ bool TestCase<ResultType, Args...>::run(ResultType (* func)(Args...), const bool
 
 
 template<typename... Args>
-TestCase<void, Args...>::TestCase(const Args... args) : m_args(std::make_tuple(args...)) {}
-
-template<typename... Args>
-template<size_t... IdxSeq>
-void TestCase<void, Args...>::call_function(std::index_sequence<IdxSeq...>, void (*func)(Args...))
-{
-    func(std::get<IdxSeq>(m_args)...);
-}
+TestCase<void, Args...>::TestCase(bare_t<Args>... args) : m_args(std::move(args)...) {}
 
 template<typename... Args>
 bool TestCase<void, Args...>::run(void (* func)(Args...), const bool verbose)
@@ -73,7 +60,8 @@ bool TestCase<void, Args...>::run(void (* func)(Args...), const bool verbose)
         _internal::print_arguments(m_args);
     }
 
-    call_function(std::index_sequence_for<Args...>{}, func);
+    std::tuple<bare_t<Args>...> args = m_args;
+    std::apply(func, args);
     if (!verbose)
     {
         return true;
