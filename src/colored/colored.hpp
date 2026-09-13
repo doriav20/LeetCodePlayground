@@ -8,27 +8,46 @@ namespace colored
 {
 namespace _internal
 {
+enum class Output
+{
+    standard,
+    error
+};
+
+bool is_colored_output(Output output);
+
 template<typename CharT>
-bool is_supported_stream(std::basic_ostream<CharT>& stream)
+bool is_colored_stream(std::basic_ostream<CharT>& stream)
 {
     if constexpr (std::is_same_v<CharT, char>)
     {
-        return (&stream == &std::cout || &stream == &std::cerr || &stream == &std::clog);
+        if (&stream == &std::cout)
+        {
+            return is_colored_output(Output::standard);
+        }
+        if (&stream == &std::cerr || &stream == &std::clog)
+        {
+            return is_colored_output(Output::error);
+        }
     }
     else if constexpr (std::is_same_v<CharT, wchar_t>)
     {
-        return (&stream == &std::wcout || &stream == &std::wcerr || &stream == &std::wclog);
+        if (&stream == &std::wcout)
+        {
+            return is_colored_output(Output::standard);
+        }
+        if (&stream == &std::wcerr || &stream == &std::wclog)
+        {
+            return is_colored_output(Output::error);
+        }
     }
-    else
-    {
-        return false;
-    }
+    return false;
 }
 
 template<typename CharT, typename... Parts>
 std::basic_ostream<CharT>& write_code(std::basic_ostream<CharT>& stream, const Parts&... parts)
 {
-    if (!is_supported_stream(stream))
+    if (!is_colored_stream(stream))
     {
         return stream;
     }
