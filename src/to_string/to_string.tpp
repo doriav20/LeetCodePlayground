@@ -8,7 +8,7 @@
 
 #include "concepts/concepts.hpp"
 
-namespace _internal
+namespace detail
 {
 template<std::ranges::input_range R>
 std::string join_items(const R& items)
@@ -29,7 +29,7 @@ std::string join_items(const R& items)
 template<Vector T>
 std::string to_string(const T& vec)
 {
-    return _internal::join_items(vec);
+    return detail::join_items(vec);
 }
 
 template<Stack T>
@@ -43,7 +43,7 @@ std::string to_string(const T& stk)
         stk_copy.pop();
     }
 
-    return _internal::join_items(items);
+    return detail::join_items(items);
 }
 
 template<ListNodePtr T>
@@ -98,7 +98,7 @@ std::string to_string(const T& root)
         values.pop_back();
     }
 
-    return _internal::join_items(values);
+    return detail::join_items(values);
 }
 
 template<Streamable T>
