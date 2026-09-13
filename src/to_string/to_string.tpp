@@ -3,90 +3,47 @@
 #include <vector>
 #include <stack>
 #include <queue>
+#include <ranges>
+#include <string_view>
 
 #include "concepts/concepts.hpp"
 
-template<Vector T>
-    requires Streamable<typename bare_t<T>::value_type>
-std::string to_string(const T& vec)
+namespace _internal
 {
-    if (vec.empty())
+template<std::ranges::input_range R>
+std::string join_items(const R& items)
+{
+    if (std::ranges::empty(items))
     {
         return "[]";
     }
 
-    std::ostringstream oss;
-
-    oss << "[ ";
-
-    oss << vec[0];
-    for (int i = 1; i < vec.size(); i++)
-    {
-        oss << ", " << vec[i];
-    }
-
-    oss << " ]";
-
-    return oss.str();
+    const std::string joined = items
+                               | std::views::transform([](const auto& item) { return to_string(item); })
+                               | std::views::join_with(std::string_view(", "))
+                               | std::ranges::to<std::string>();
+    return "[ " + joined + " ]";
+}
 }
 
-template<Matrix T>
-    requires Streamable<typename bare_t<typename bare_t<T>::value_type>::value_type>
-std::string to_string(const T& mat)
+template<Vector T>
+std::string to_string(const T& vec)
 {
-    if (mat.empty())
-    {
-        return "[]";
-    }
-
-    std::ostringstream oss;
-
-    oss << "[ ";
-
-    oss << to_string(mat[0]);
-    for (int i = 1; i < mat.size(); i++)
-    {
-        oss << ", " << to_string(mat[i]);
-    }
-
-    oss << " ]";
-
-    return oss.str();
+    return _internal::join_items(vec);
 }
 
 template<Stack T>
-    requires Streamable<typename bare_t<T>::value_type>
 std::string to_string(const T& stk)
 {
-    if (stk.empty())
-    {
-        return "[]";
-    }
-
     std::stack<typename bare_t<T>::value_type> stk_copy = stk;
-    std::queue<typename bare_t<T>::value_type> q;
+    std::vector<typename bare_t<T>::value_type> items;
     while (!stk_copy.empty())
     {
-        q.push(stk_copy.top());
+        items.push_back(stk_copy.top());
         stk_copy.pop();
     }
 
-    std::ostringstream oss;
-
-    oss << "[ ";
-
-    oss << q.front();
-    q.pop();
-
-    while (!q.empty())
-    {
-        oss << ", " << q.front();
-        q.pop();
-    }
-
-    oss << " ]";
-
-    return oss.str();
+    return _internal::join_items(items);
 }
 
 template<ListNodePtr T>
@@ -111,23 +68,6 @@ std::string to_string(const T& head)
 }
 
 template<TreeNodePtr T>
-std::string tree_node_to_string_helper(const T& root)
-{
-    if (root == nullptr)
-    {
-        return "";
-    }
-
-    std::ostringstream oss;
-
-    oss << tree_node_to_string_helper(root->left);
-    oss << root->val << ' ';
-    oss << tree_node_to_string_helper(root->right);
-
-    return oss.str();
-}
-
-template<TreeNodePtr T>
 std::string to_string(const T& root)
 {
     if (root == nullptr)
@@ -135,7 +75,30 @@ std::string to_string(const T& root)
         return "Tree is empty";
     }
 
-    return tree_node_to_string_helper(root);
+    std::vector<std::string> values;
+    std::queue<T> nodes;
+    nodes.push(root);
+    while (!nodes.empty())
+    {
+        T node = nodes.front();
+        nodes.pop();
+
+        if (node == nullptr)
+        {
+            values.emplace_back("null");
+            continue;
+        }
+        values.push_back(std::to_string(node->val));
+        nodes.push(node->left);
+        nodes.push(node->right);
+    }
+
+    while (values.back() == "null")
+    {
+        values.pop_back();
+    }
+
+    return _internal::join_items(values);
 }
 
 template<Streamable T>

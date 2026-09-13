@@ -1,29 +1,37 @@
 #include "TreeNode.hpp"
 
-TreeNode* create_tree_node_from_vector_helper(const std::vector<int>& vec, const size_t rootIndex)
-{
-    if (rootIndex >= vec.size())
-    {
-        return nullptr;
-    }
-
-    int val = vec[rootIndex];
-    if (val == NULL_NODE)
-    {
-        return nullptr;
-    }
-
-    TreeNode* root = new TreeNode(val);
-    root->left = create_tree_node_from_vector_helper(vec, 2 * rootIndex + 1);
-    root->right = create_tree_node_from_vector_helper(vec, 2 * rootIndex + 2);
-    return root;
-}
+#include <queue>
 
 TreeNode* create_tree_node_from_vector(const std::vector<int>& vec)
 {
-    if (vec.empty())
+    if (vec.empty() || vec[0] == NULL_NODE)
     {
         return nullptr;
     }
-    return create_tree_node_from_vector_helper(vec, 0);
+
+    TreeNode* root = new TreeNode(vec[0]);
+    std::queue<TreeNode*> parents;
+    parents.push(root);
+
+    size_t i = 1;
+    while (i < vec.size() && !parents.empty())
+    {
+        TreeNode* parent = parents.front();
+        parents.pop();
+
+        if (vec[i] != NULL_NODE)
+        {
+            parent->left = new TreeNode(vec[i]);
+            parents.push(parent->left);
+        }
+        i++;
+
+        if (i < vec.size() && vec[i] != NULL_NODE)
+        {
+            parent->right = new TreeNode(vec[i]);
+            parents.push(parent->right);
+        }
+        i++;
+    }
+    return root;
 }

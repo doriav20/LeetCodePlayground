@@ -21,9 +21,6 @@ template<typename T>
 concept Vector = std::same_as<bare_t<T>, std::vector<typename bare_t<T>::value_type>>;
 
 template<typename T>
-concept Matrix = Vector<T> && Vector<typename bare_t<T>::value_type>;
-
-template<typename T>
 concept Stack = std::same_as<bare_t<T>, std::stack<typename bare_t<T>::value_type>>;
 
 template<typename T>
