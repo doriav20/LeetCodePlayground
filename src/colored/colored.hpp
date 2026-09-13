@@ -163,6 +163,6 @@ std::basic_ostream<CharT>& cyan(std::basic_ostream<CharT>& stream)
 template<typename CharT>
 std::basic_ostream<CharT>& white(std::basic_ostream<CharT>& stream)
 {
-    return colored::color<15>(stream);
+    return colored::color<7>(stream);
 }
 }
