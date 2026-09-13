@@ -1,5 +1,8 @@
 #pragma once
 
+#include <cstddef>
+#include <iostream>
+#include <stdexcept>
 #include <vector>
 
 #include "TestCase/TestCase.hpp"
