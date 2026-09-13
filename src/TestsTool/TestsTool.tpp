@@ -1,3 +1,33 @@
+namespace _internal
+{
+inline void print_summary(const std::vector<bool>& results)
+{
+    size_t passed_count = 0;
+    for (size_t i = 0; i < results.size(); i++)
+    {
+        if (results[i])
+        {
+            std::cout << colored::green << "Test " << i + 1 << " passed" << colored::reset << std::endl;
+            passed_count++;
+        }
+        else
+        {
+            std::cout << colored::red << "Test " << i + 1 << " failed" << colored::reset << std::endl;
+        }
+    }
+    if (passed_count == results.size())
+    {
+        std::cout << colored::green << colored::bold << "All tests passed" << colored::reset << std::endl;
+    }
+    else
+    {
+        std::cout << colored::red << colored::bold << passed_count << "/" << results.size() << " tests passed"
+                << colored::reset << std::endl;
+    }
+}
+}
+
+
 template<typename ResultType, typename... Args>
 TestsTool<ResultType, Args...>::TestsTool(TestsTool::FunctionType func) : m_func(func) {}
 
@@ -21,32 +51,13 @@ void TestsTool<ResultType, Args...>::run_tests(const bool verbose)
         throw std::runtime_error("No function is set");
     }
 
-    std::vector<bool> results(m_test_cases.size());
-    size_t i = 0;
-
+    std::vector<bool> results;
     for (TestCase<ResultType, Args...>& test_case : m_test_cases)
     {
-        const bool passed = test_case.run(m_func, verbose);
-        results[i++] = passed;
+        results.push_back(test_case.run(m_func, verbose));
     }
 
-    bool all_passed = true;
-    for (i = 0; i < results.size(); i++)
-    {
-        if (results[i])
-        {
-            std::cout << colored::green << "Test " << i + 1 << " passed" << colored::reset << std::endl;
-        }
-        else
-        {
-            std::cout << colored::red << "Test " << i + 1 << " failed" << colored::reset << std::endl;
-            all_passed = false;
-        }
-    }
-    if (all_passed)
-    {
-        std::cout << colored::green << colored::bold << "All tests passed" << colored::reset << std::endl;
-    }
+    _internal::print_summary(results);
 }
 
 
@@ -73,30 +84,11 @@ void TestsTool<void, Args...>::run_tests(const bool verbose)
         throw std::runtime_error("No function is set");
     }
 
-    std::vector<bool> results(m_test_cases.size());
-    size_t i = 0;
-
+    std::vector<bool> results;
     for (TestCase<void, Args...>& test_case : m_test_cases)
     {
-        const bool passed = test_case.run(m_func, verbose);
-        results[i++] = passed;
+        results.push_back(test_case.run(m_func, verbose));
     }
 
-    bool all_passed = true;
-    for (i = 0; i < results.size(); i++)
-    {
-        if (results[i])
-        {
-            std::cout << colored::green << "Test " << i + 1 << " passed" << colored::reset << std::endl;
-        }
-        else
-        {
-            std::cout << colored::red << "Test " << i + 1 << " failed" << colored::reset << std::endl;
-            all_passed = false;
-        }
-    }
-    if (all_passed)
-    {
-        std::cout << colored::green << colored::bold << "All tests passed" << colored::reset << std::endl;
-    }
+    _internal::print_summary(results);
 }

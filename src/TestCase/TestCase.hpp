@@ -12,16 +12,6 @@ private:
     std::tuple<Args...> m_args;
     ResultType m_expected;
 
-    template<typename T>
-    void print_argument(const T& arg);
-
-    template<size_t Index = 0>
-    void print_arguments();
-
-    void print_expected();
-
-    void print_result(const ResultType& result);
-
 public:
     TestCase(const Args... args, const ResultType expected);
 
@@ -36,12 +26,6 @@ class TestCase<void, Args...>
 {
 private:
     std::tuple<Args...> m_args;
-
-    template<typename T>
-    void print_argument(const T& arg);
-
-    template<size_t Index = 0>
-    void print_arguments();
 
 public:
     TestCase(const Args... args);

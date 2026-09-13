@@ -105,6 +105,6 @@ template<Streamable T>
 std::string to_string(const T& value)
 {
     std::ostringstream oss;
-    oss << value;
+    oss << std::boolalpha << value;
     return oss.str();
 }
