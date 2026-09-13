@@ -1,14 +1,10 @@
 #pragma once
 
-#include <cstddef>
 #include <functional>
-#include <iostream>
-#include <stdexcept>
-#include <utility>
 #include <vector>
 
 #include "TestCase/TestCase.hpp"
-#include "colored/colored.hpp"
+#include "concepts/concepts.hpp"
 
 template<typename ResultType, typename... Args>
 class TestsTool

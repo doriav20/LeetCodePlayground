@@ -1,10 +1,14 @@
+#include <functional>
+#include <iostream>
+#include <tuple>
+#include <utility>
+
+#include "concepts/concepts.hpp"
 #include "equals/equals.hpp"
 #include "to_string/to_string.hpp"
-#include "data_structures/ListNode/ListNode.hpp"
-#include "data_structures/TreeNode/TreeNode.hpp"
 
 
-namespace _internal
+namespace detail
 {
 template<typename... Ts>
 void print_arguments(const std::tuple<Ts...>& args)
@@ -32,7 +36,7 @@ bool TestCase<ResultType, Args...>::run(const std::function<ResultType(Args...)>
 {
     if (verbose)
     {
-        _internal::print_arguments(m_args);
+        detail::print_arguments(m_args);
     }
 
     std::tuple<bare_t<Args>...> args = m_args;
@@ -59,7 +63,7 @@ bool TestCase<void, Args...>::run(const std::function<void(Args...)>& func, cons
 {
     if (verbose)
     {
-        _internal::print_arguments(m_args);
+        detail::print_arguments(m_args);
     }
 
     std::tuple<bare_t<Args>...> args = m_args;

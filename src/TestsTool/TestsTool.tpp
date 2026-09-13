@@ -1,4 +1,16 @@
-namespace _internal
+#include <cstddef>
+#include <functional>
+#include <iostream>
+#include <stdexcept>
+#include <utility>
+#include <vector>
+
+#include "TestCase/TestCase.hpp"
+#include "colored/colored.hpp"
+#include "concepts/concepts.hpp"
+
+
+namespace detail
 {
 inline void print_summary(const std::vector<bool>& results)
 {
@@ -44,7 +56,7 @@ TestsTool<ResultType, Args...>::TestsTool(ResultType (*func)(Args...)) : m_func(
 template<typename ResultType, typename... Args>
 template<typename Class>
 TestsTool<ResultType, Args...>::TestsTool(ResultType (Class::*method)(Args...)) :
-        m_func(_internal::make_method_caller(method)) {}
+        m_func(detail::make_method_caller(method)) {}
 
 template<typename ResultType, typename... Args>
 void TestsTool<ResultType, Args...>::add_test_case(const TestCase<ResultType, Args...>& test_case)
@@ -72,7 +84,7 @@ void TestsTool<ResultType, Args...>::run_tests(const bool verbose)
         results.push_back(test_case.run(m_func, verbose));
     }
 
-    _internal::print_summary(results);
+    detail::print_summary(results);
 }
 
 
@@ -81,7 +93,7 @@ TestsTool<void, Args...>::TestsTool(void (*func)(Args...)) : m_func(func) {}
 
 template<typename... Args>
 template<typename Class>
-TestsTool<void, Args...>::TestsTool(void (Class::*method)(Args...)) : m_func(_internal::make_method_caller(method)) {}
+TestsTool<void, Args...>::TestsTool(void (Class::*method)(Args...)) : m_func(detail::make_method_caller(method)) {}
 
 template<typename... Args>
 void TestsTool<void, Args...>::add_test_case(const TestCase<void, Args...>& test_case)
@@ -109,5 +121,5 @@ void TestsTool<void, Args...>::run_tests(const bool verbose)
         results.push_back(test_case.run(m_func, verbose));
     }
 
-    _internal::print_summary(results);
+    detail::print_summary(results);
 }
