@@ -53,7 +53,7 @@ std::basic_ostream<CharT>& bold(std::basic_ostream<CharT>& stream)
 }
 
 template<typename CharT>
-std::basic_ostream<CharT>& dark(std::basic_ostream<CharT>& stream)
+std::basic_ostream<CharT>& dim(std::basic_ostream<CharT>& stream)
 {
     return _internal::write_code(stream, 2);
 }
@@ -89,7 +89,7 @@ std::basic_ostream<CharT>& concealed(std::basic_ostream<CharT>& stream)
 }
 
 template<typename CharT>
-std::basic_ostream<CharT>& crossed(std::basic_ostream<CharT>& stream)
+std::basic_ostream<CharT>& strikethrough(std::basic_ostream<CharT>& stream)
 {
     return _internal::write_code(stream, 9);
 }
