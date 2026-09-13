@@ -2,22 +2,27 @@ namespace _internal
 {
 inline void print_summary(const std::vector<bool>& results)
 {
-    bool all_passed = true;
+    size_t passed_count = 0;
     for (size_t i = 0; i < results.size(); i++)
     {
         if (results[i])
         {
             std::cout << colored::green << "Test " << i + 1 << " passed" << colored::reset << std::endl;
+            passed_count++;
         }
         else
         {
             std::cout << colored::red << "Test " << i + 1 << " failed" << colored::reset << std::endl;
-            all_passed = false;
         }
     }
-    if (all_passed)
+    if (passed_count == results.size())
     {
         std::cout << colored::green << colored::bold << "All tests passed" << colored::reset << std::endl;
+    }
+    else
+    {
+        std::cout << colored::red << colored::bold << passed_count << "/" << results.size() << " tests passed"
+                << colored::reset << std::endl;
     }
 }
 }
