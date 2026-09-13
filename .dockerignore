@@ -1,0 +1,10 @@
+# Git
+.git
+
+# CLion project files
+.idea
+cmake-build-*
+
+# Docker
+Dockerfile
+.dockerignore
