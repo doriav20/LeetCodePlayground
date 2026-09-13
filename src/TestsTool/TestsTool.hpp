@@ -1,8 +1,10 @@
 #pragma once
 
 #include <cstddef>
+#include <functional>
 #include <iostream>
 #include <stdexcept>
+#include <utility>
 #include <vector>
 
 #include "TestCase/TestCase.hpp"
@@ -14,15 +16,17 @@ class TestsTool
 private:
     std::vector<TestCase<ResultType, Args...>> m_test_cases;
 
-    using FunctionType = ResultType (*)(Args...);
-    FunctionType m_func;
+    std::function<ResultType(Args...)> m_func;
 
 public:
-    explicit TestsTool(FunctionType func);
+    explicit TestsTool(ResultType (*func)(Args...));
+
+    template<typename Class>
+    explicit TestsTool(ResultType (Class::*method)(Args...));
 
     void add_test_case(const TestCase<ResultType, Args...>& test_case);
 
-    void add_test_case(Args... args, ResultType expected);
+    void add_test_case(bare_t<Args>... args, bare_t<ResultType> expected);
 
     void run_tests(const bool verbose = true);
 };
@@ -33,15 +37,17 @@ class TestsTool<void, Args...>
 private:
     std::vector<TestCase<void, Args...>> m_test_cases;
 
-    using FunctionType = void (*)(Args...);
-    FunctionType m_func;
+    std::function<void(Args...)> m_func;
 
 public:
-    explicit TestsTool(FunctionType func);
+    explicit TestsTool(void (*func)(Args...));
+
+    template<typename Class>
+    explicit TestsTool(void (Class::*method)(Args...));
 
     void add_test_case(const TestCase<void, Args...>& test_case);
 
-    void add_test_case(Args... args);
+    void add_test_case(bare_t<Args>... args);
 
     void run_tests(const bool verbose = true);
 };

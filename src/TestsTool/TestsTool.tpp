@@ -25,11 +25,26 @@ inline void print_summary(const std::vector<bool>& results)
                 << colored::reset << std::endl;
     }
 }
+
+template<typename Class, typename ResultType, typename... Args>
+std::function<ResultType(Args...)> make_method_caller(ResultType (Class::*method)(Args...))
+{
+    return [method](Args... args) -> ResultType
+    {
+        Class solution;
+        return (solution.*method)(std::forward<Args>(args)...);
+    };
+}
 }
 
 
 template<typename ResultType, typename... Args>
-TestsTool<ResultType, Args...>::TestsTool(TestsTool::FunctionType func) : m_func(func) {}
+TestsTool<ResultType, Args...>::TestsTool(ResultType (*func)(Args...)) : m_func(func) {}
+
+template<typename ResultType, typename... Args>
+template<typename Class>
+TestsTool<ResultType, Args...>::TestsTool(ResultType (Class::*method)(Args...)) :
+        m_func(_internal::make_method_caller(method)) {}
 
 template<typename ResultType, typename... Args>
 void TestsTool<ResultType, Args...>::add_test_case(const TestCase<ResultType, Args...>& test_case)
@@ -38,15 +53,15 @@ void TestsTool<ResultType, Args...>::add_test_case(const TestCase<ResultType, Ar
 }
 
 template<typename ResultType, typename... Args>
-void TestsTool<ResultType, Args...>::add_test_case(Args... args, ResultType expected)
+void TestsTool<ResultType, Args...>::add_test_case(bare_t<Args>... args, bare_t<ResultType> expected)
 {
-    m_test_cases.emplace_back(args..., expected);
+    m_test_cases.emplace_back(std::move(args)..., std::move(expected));
 }
 
 template<typename ResultType, typename... Args>
 void TestsTool<ResultType, Args...>::run_tests(const bool verbose)
 {
-    if (m_func == nullptr)
+    if (!m_func)
     {
         throw std::runtime_error("No function is set");
     }
@@ -62,7 +77,11 @@ void TestsTool<ResultType, Args...>::run_tests(const bool verbose)
 
 
 template<typename... Args>
-TestsTool<void, Args...>::TestsTool(TestsTool::FunctionType func) : m_func(func) {}
+TestsTool<void, Args...>::TestsTool(void (*func)(Args...)) : m_func(func) {}
+
+template<typename... Args>
+template<typename Class>
+TestsTool<void, Args...>::TestsTool(void (Class::*method)(Args...)) : m_func(_internal::make_method_caller(method)) {}
 
 template<typename... Args>
 void TestsTool<void, Args...>::add_test_case(const TestCase<void, Args...>& test_case)
@@ -71,15 +90,15 @@ void TestsTool<void, Args...>::add_test_case(const TestCase<void, Args...>& test
 }
 
 template<typename... Args>
-void TestsTool<void, Args...>::add_test_case(Args... args)
+void TestsTool<void, Args...>::add_test_case(bare_t<Args>... args)
 {
-    m_test_cases.emplace_back(args...);
+    m_test_cases.emplace_back(std::move(args)...);
 }
 
 template<typename... Args>
 void TestsTool<void, Args...>::run_tests(const bool verbose)
 {
-    if (m_func == nullptr)
+    if (!m_func)
     {
         throw std::runtime_error("No function is set");
     }
