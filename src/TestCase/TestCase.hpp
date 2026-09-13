@@ -1,5 +1,10 @@
 #pragma once
 
+#include <cstddef>
+#include <iostream>
+#include <tuple>
+#include <utility>
+
 template<typename ResultType, typename... Args>
 class TestCase
 {
