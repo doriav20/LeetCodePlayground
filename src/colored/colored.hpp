@@ -94,25 +94,25 @@ std::basic_ostream<CharT>& crossed(std::basic_ostream<CharT>& stream)
     return _internal::write_code(stream, 9);
 }
 
-template<uint8_t code, typename CharT>
+template<std::uint8_t code, typename CharT>
 std::basic_ostream<CharT>& color(std::basic_ostream<CharT>& stream)
 {
     return _internal::write_code(stream, "38;5;", +code);
 }
 
-template<uint8_t code, typename CharT>
+template<std::uint8_t code, typename CharT>
 std::basic_ostream<CharT>& bg_color(std::basic_ostream<CharT>& stream)
 {
     return _internal::write_code(stream, "48;5;", +code);
 }
 
-template<uint8_t r, uint8_t g, uint8_t b, typename CharT>
+template<std::uint8_t r, std::uint8_t g, std::uint8_t b, typename CharT>
 std::basic_ostream<CharT>& color(std::basic_ostream<CharT>& stream)
 {
     return _internal::write_code(stream, "38;2;", +r, ";", +g, ";", +b);
 }
 
-template<uint8_t r, uint8_t g, uint8_t b, typename CharT>
+template<std::uint8_t r, std::uint8_t g, std::uint8_t b, typename CharT>
 std::basic_ostream<CharT>& bg_color(std::basic_ostream<CharT>& stream)
 {
     return _internal::write_code(stream, "48;2;", +r, ";", +g, ";", +b);
