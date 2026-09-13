@@ -23,162 +23,98 @@ bool is_supported_stream(std::basic_ostream<CharT>& stream)
         return false;
     }
 }
+
+template<typename CharT, typename... Parts>
+std::basic_ostream<CharT>& write_code(std::basic_ostream<CharT>& stream, const Parts&... parts)
+{
+    if (!is_supported_stream(stream))
+    {
+        return stream;
+    }
+
+    stream << "\033[";
+    (stream << ... << parts);
+    stream << "m";
+    return stream;
+}
 }
 
 template<typename CharT>
 std::basic_ostream<CharT>& reset(std::basic_ostream<CharT>& stream)
 {
-    if (!_internal::is_supported_stream(stream))
-    {
-        return stream;
-    }
-
-    stream << "\033[0m";
-    return stream;
+    return _internal::write_code(stream, 0);
 }
 
 template<typename CharT>
 std::basic_ostream<CharT>& bold(std::basic_ostream<CharT>& stream)
 {
-    if (!_internal::is_supported_stream(stream))
-    {
-        return stream;
-    }
-
-    stream << "\033[1m";
-    return stream;
+    return _internal::write_code(stream, 1);
 }
 
 template<typename CharT>
 std::basic_ostream<CharT>& dark(std::basic_ostream<CharT>& stream)
 {
-    if (!_internal::is_supported_stream(stream))
-    {
-        return stream;
-    }
-
-    stream << "\033[2m";
-    return stream;
+    return _internal::write_code(stream, 2);
 }
 
 template<typename CharT>
 std::basic_ostream<CharT>& italic(std::basic_ostream<CharT>& stream)
 {
-    if (!_internal::is_supported_stream(stream))
-    {
-        return stream;
-    }
-
-    stream << "\033[3m";
-    return stream;
+    return _internal::write_code(stream, 3);
 }
 
 template<typename CharT>
 std::basic_ostream<CharT>& underline(std::basic_ostream<CharT>& stream)
 {
-    if (!_internal::is_supported_stream(stream))
-    {
-        return stream;
-    }
-
-    stream << "\033[4m";
-    return stream;
+    return _internal::write_code(stream, 4);
 }
 
 template<typename CharT>
 std::basic_ostream<CharT>& blink(std::basic_ostream<CharT>& stream)
 {
-    if (!_internal::is_supported_stream(stream))
-    {
-        return stream;
-    }
-
-    stream << "\033[5m";
-    return stream;
+    return _internal::write_code(stream, 5);
 }
 
 template<typename CharT>
 std::basic_ostream<CharT>& reverse(std::basic_ostream<CharT>& stream)
 {
-    if (!_internal::is_supported_stream(stream))
-    {
-        return stream;
-    }
-
-    stream << "\033[7m";
-    return stream;
+    return _internal::write_code(stream, 7);
 }
 
 template<typename CharT>
 std::basic_ostream<CharT>& concealed(std::basic_ostream<CharT>& stream)
 {
-    if (!_internal::is_supported_stream(stream))
-    {
-        return stream;
-    }
-
-    stream << "\033[8m";
-    return stream;
+    return _internal::write_code(stream, 8);
 }
 
 template<typename CharT>
 std::basic_ostream<CharT>& crossed(std::basic_ostream<CharT>& stream)
 {
-    if (!_internal::is_supported_stream(stream))
-    {
-        return stream;
-    }
-
-    stream << "\033[9m";
-    return stream;
+    return _internal::write_code(stream, 9);
 }
 
 template<uint8_t code, typename CharT>
 std::basic_ostream<CharT>& color(std::basic_ostream<CharT>& stream)
 {
-    if (!_internal::is_supported_stream(stream))
-    {
-        return stream;
-    }
-
-    stream << "\033[38;5;" << static_cast<int>(code) << "m";
-    return stream;
+    return _internal::write_code(stream, "38;5;", +code);
 }
 
 template<uint8_t code, typename CharT>
 std::basic_ostream<CharT>& bg_color(std::basic_ostream<CharT>& stream)
 {
-    if (!_internal::is_supported_stream(stream))
-    {
-        return stream;
-    }
-
-    stream << "\033[48;5;" << static_cast<int>(code) << "m";
-    return stream;
+    return _internal::write_code(stream, "48;5;", +code);
 }
 
 template<uint8_t r, uint8_t g, uint8_t b, typename CharT>
 std::basic_ostream<CharT>& color(std::basic_ostream<CharT>& stream)
 {
-    if (!_internal::is_supported_stream(stream))
-    {
-        return stream;
-    }
-
-    stream << "\033[38;2;" << +r << ";" << +g << ";" << +b << "m";
-    return stream;
+    return _internal::write_code(stream, "38;2;", +r, ";", +g, ";", +b);
 }
 
 template<uint8_t r, uint8_t g, uint8_t b, typename CharT>
 std::basic_ostream<CharT>& bg_color(std::basic_ostream<CharT>& stream)
 {
-    if (!_internal::is_supported_stream(stream))
-    {
-        return stream;
-    }
-
-    stream << "\033[48;2;" << +r << ";" << +g << ";" << +b << "m";
-    return stream;
+    return _internal::write_code(stream, "48;2;", +r, ";", +g, ";", +b);
 }
 
 template<typename CharT>
