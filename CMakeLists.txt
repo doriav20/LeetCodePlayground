@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.26)
-project(LeetCodePlayground)
+project(LeetCodePlayground LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 26)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 option(WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
 
