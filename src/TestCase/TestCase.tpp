@@ -1,3 +1,4 @@
+#include "equals/equals.hpp"
 #include "to_string/to_string.hpp"
 #include "data_structures/ListNode/ListNode.hpp"
 #include "data_structures/TreeNode/TreeNode.hpp"
@@ -36,16 +37,17 @@ bool TestCase<ResultType, Args...>::run(const std::function<ResultType(Args...)>
 
     std::tuple<bare_t<Args>...> args = m_args;
     const bare_t<ResultType> actual = std::apply(func, args);
+    const bool passed = are_equal(actual, m_expected);
     if (!verbose)
     {
-        return actual == m_expected;
+        return passed;
     }
 
     std::cout << "Expected: " << to_string(m_expected) << std::endl;
     std::cout << "Actual: " << to_string(actual) << std::endl;
 
     std::cout << std::endl;
-    return actual == m_expected;
+    return passed;
 }
 
 
