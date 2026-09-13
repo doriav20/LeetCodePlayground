@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <iostream>
 #include <tuple>
 #include <utility>
@@ -16,7 +17,7 @@ private:
 public:
     TestCase(bare_t<Args>... args, bare_t<ResultType> expected);
 
-    bool run(ResultType (*func)(Args...), const bool verbose = true);
+    bool run(const std::function<ResultType(Args...)>& func, const bool verbose = true);
 };
 
 template<typename... Args>
@@ -28,7 +29,7 @@ private:
 public:
     TestCase(bare_t<Args>... args);
 
-    bool run(void (*func)(Args...), const bool verbose = true);
+    bool run(const std::function<void(Args...)>& func, const bool verbose = true);
 };
 
 #include "TestCase.tpp"

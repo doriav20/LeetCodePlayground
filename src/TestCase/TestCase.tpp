@@ -27,7 +27,7 @@ TestCase<ResultType, Args...>::TestCase(bare_t<Args>... args, bare_t<ResultType>
         m_args(std::move(args)...), m_expected(std::move(expected)) {}
 
 template<typename ResultType, typename... Args>
-bool TestCase<ResultType, Args...>::run(ResultType (* func)(Args...), const bool verbose)
+bool TestCase<ResultType, Args...>::run(const std::function<ResultType(Args...)>& func, const bool verbose)
 {
     if (verbose)
     {
@@ -53,7 +53,7 @@ template<typename... Args>
 TestCase<void, Args...>::TestCase(bare_t<Args>... args) : m_args(std::move(args)...) {}
 
 template<typename... Args>
-bool TestCase<void, Args...>::run(void (* func)(Args...), const bool verbose)
+bool TestCase<void, Args...>::run(const std::function<void(Args...)>& func, const bool verbose)
 {
     if (verbose)
     {

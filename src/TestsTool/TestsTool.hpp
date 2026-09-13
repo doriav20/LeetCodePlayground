@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <functional>
 #include <iostream>
 #include <stdexcept>
 #include <utility>
@@ -15,11 +16,13 @@ class TestsTool
 private:
     std::vector<TestCase<ResultType, Args...>> m_test_cases;
 
-    using FunctionType = ResultType (*)(Args...);
-    FunctionType m_func;
+    std::function<ResultType(Args...)> m_func;
 
 public:
-    explicit TestsTool(FunctionType func);
+    explicit TestsTool(ResultType (*func)(Args...));
+
+    template<typename Class>
+    explicit TestsTool(ResultType (Class::*method)(Args...));
 
     void add_test_case(const TestCase<ResultType, Args...>& test_case);
 
@@ -34,11 +37,13 @@ class TestsTool<void, Args...>
 private:
     std::vector<TestCase<void, Args...>> m_test_cases;
 
-    using FunctionType = void (*)(Args...);
-    FunctionType m_func;
+    std::function<void(Args...)> m_func;
 
 public:
-    explicit TestsTool(FunctionType func);
+    explicit TestsTool(void (*func)(Args...));
+
+    template<typename Class>
+    explicit TestsTool(void (Class::*method)(Args...));
 
     void add_test_case(const TestCase<void, Args...>& test_case);
 
