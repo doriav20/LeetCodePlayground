@@ -3,6 +3,8 @@
 #include <vector>
 #include <stack>
 #include <queue>
+#include <ranges>
+#include <string_view>
 
 #include "concepts/concepts.hpp"
 
@@ -111,23 +113,6 @@ std::string to_string(const T& head)
 }
 
 template<TreeNodePtr T>
-std::string tree_node_to_string_helper(const T& root)
-{
-    if (root == nullptr)
-    {
-        return "";
-    }
-
-    std::ostringstream oss;
-
-    oss << tree_node_to_string_helper(root->left);
-    oss << root->val << ' ';
-    oss << tree_node_to_string_helper(root->right);
-
-    return oss.str();
-}
-
-template<TreeNodePtr T>
 std::string to_string(const T& root)
 {
     if (root == nullptr)
@@ -135,7 +120,30 @@ std::string to_string(const T& root)
         return "Tree is empty";
     }
 
-    return tree_node_to_string_helper(root);
+    std::vector<std::string> values;
+    std::queue<T> nodes;
+    nodes.push(root);
+    while (!nodes.empty())
+    {
+        T node = nodes.front();
+        nodes.pop();
+
+        if (node == nullptr)
+        {
+            values.emplace_back("null");
+            continue;
+        }
+        values.push_back(std::to_string(node->val));
+        nodes.push(node->left);
+        nodes.push(node->right);
+    }
+
+    while (values.back() == "null")
+    {
+        values.pop_back();
+    }
+
+    return "[ " + (values | std::views::join_with(std::string_view(", ")) | std::ranges::to<std::string>()) + " ]";
 }
 
 template<Streamable T>
